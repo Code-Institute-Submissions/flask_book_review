@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block page_title %} <title>Add Books</title> {% endblock %}
+
+{% block content %}
+<div class="container half_width_container">
+    <div class="row">
+        <div class="col-sm-12">
+            <h2>Add a Book</h2>
+        </div>
+    </div>
+</div>
+<br>
+<div class="container half_width_container">
+    <form action="{{ url_for('insert_book') }}" method="POST">
+        <div class="row">
+            <div class="form-group col-sm-12">
+                <label for="book_name">Book Title</label>
+                <input type="text" class="form-control" id="book_name" name="book_name" placeholder="Book Title">
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="form-group col-sm-12">
+                <label for="genre_name">Genre</label>
+                <select class="form-control" id="genre_name" name="genre_name">
+                    <option value="" disabled selected>Choose your Genre</option>
+                    {% for genre in book_genre %}
+                        <option value="{{ genre.genre_name }}">{{ genre.genre_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group col-sm-12">
+                <label for="rating">Rating</label>
+                <select class="form-control" id="rating" name="rating">
+                    <option value="" disabled selected>Choose your Rating</option>
+                    {% for rating in rating %}
+                        <option value="{{ rating.rating_value }}">{{ rating.rating_value }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group col-sm-12">
+                <label for="book_info">Book Description</label>
+                <textarea class="form-control" id="book_info" name="book_info" rows="3"></textarea>
+            </div>
+        </div>
+
+        <div class="row">
+            <button class="btn btn-primary" type="submit">Add Book</button>
+        </div>
+    </form>
+</div> <!-- Closing form container class -->
+{% endblock %}

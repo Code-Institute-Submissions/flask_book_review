@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block page_title %}
+<title>Home Page</title>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <h2>Book Reviews and Suggestions</h2>
+        </div>
+    </div>
+</div>
+<br>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12 col-md-12">
+            {% for book in all_books %}
+            <a href="{{ url_for('full_book_details', book_id=book._id)}}"><p>{{book.book_name}}</p></a>
+            <p>Author: {{book.author_name}}</p>
+            <p>{{book.genre}}</p>
+            <p>Rating: </p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock %}
