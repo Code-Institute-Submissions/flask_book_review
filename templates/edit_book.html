@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% block page_title %} <title>Edit a Book</title> {% endblock %}
+
+{% block content %}
+<div class="container half_width_container">
+    <div class="row">
+        <div class="col-sm-12">
+            <h2>Edit a Book</h2>
+        </div>
+    </div>
+</div>
+<br>
+<div class="container half_width_container">
+    <form action="{{ url_for('update_book', book_id=book._id) }}" method="POST" class="col-sm-12">
+        <div class="row">
+            <div class="form-group col-sm-12">
+                <label for="book_name">Book Title</label>
+                <input type="text" class="form-control" id="book_name" name="book_name" value="{{book.book_name}}">
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group col-sm-12">
+                <label for="author_name">Author</label>
+                <input type="text" class="form-control" id="author_name" name="author_name" value="{{book.author_name}}">
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group col-sm-12">
+                <label for="genre_name">Genre</label>
+                <select class="form-control" id="genre_name" name="genre_name">
+                    <option value="" disabled selected>Choose your Genre</option>
+                    {% for genre in all_genre %}
+                        {% if genre.genre_name == book.genre_name %}
+                            <option value="{{ genre.genre_name }}" selected >{{ genre.genre_name }}</option>
+                        {% else %}
+                            <option value="{{ genre.genre_name }}">{{ genre.genre_name }}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group col-sm-12">
+                <label for="rating_value">Rating</label>
+                <select class="form-control" id="rating_value" name="rating_value">
+                    <option value="" disabled selected>Choose your Rating</option>
+                    {% for rating in rating %}
+                        {% if rating.rating_value == book.rating_value %}
+                            <option value="{{ rating.rating_value }}" selected >{{ rating.rating_value }}</option>
+                        {% else %}
+                            <option value="{{ rating.rating_value }}">{{ rating.rating_value }}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group col-sm-12">
+                <label for="book_info">Book Description</label>
+                <textarea class="form-control" id="book_info" name="book_info" rows="3">{{book.book_info}}</textarea>
+            </div>
+        </div>
+
+        <div class="row">
+            <button class="btn btn-primary" type="submit">Update Book</button>
+        </div>
+    </form>
+</div> <!-- Closing form container class -->
+{% endblock %}
