@@ -12,19 +12,22 @@
     </div>
 </div>
 <br>
-<div class="container">
+<div class="container border_container">
     <div class="row">
         <div class="col-sm-12 col-md-12">
             {% for book in all_books %}
-            <a href="{{ url_for('full_book_details', book_id=book._id)}}"><p>{{book.book_name}}</p></a>
-            <p>Author: {{book.author_name}}</p>
-            <p>{{book.genre}}</p>
-            <p>Rating: </p>
+            <a href="{{ url_for('full_book_details', book_id=book._id)}}"><p>{{book.book_name|title}}</p></a>
+            <p>Author: {{book.author_name|title}}</p>
+            <p>Rating: {{book.rating_value}}</p>
+            <p>{{book.genre_name}}</p>
+            
+            <a href="{{ url_for('delete_book', book_id=book._id) }}" class="waves-effect btn btn-small btn-danger">delete</a>
+                
             {% endfor %}
         </div>
     </div>
 </div>
-
+<br>
 
 
 {% endblock %}
