@@ -47,11 +47,11 @@
                 <label for="rating_value">Rating</label>
                 <select class="form-control" id="rating_value" name="rating_value">
                     <option value="" disabled selected>Choose your Rating</option>
-                    {% for rating in rating %}
-                        {% if rating.rating_value == book.rating_value %}
-                            <option value="{{ rating.rating_value }}" selected >{{ rating.rating_value }}</option>
+                    {% for rating_num in rating %}
+                        {% if rating_num.rating_value == book.rating_value %}
+                            <option value="{{ rating_num.rating_value }}" selected >{{ rating_num.rating_value }}</option>
                         {% else %}
-                            <option value="{{ rating.rating_value }}">{{ rating.rating_value }}</option>
+                            <option value="{{ rating_num.rating_value }}">{{ rating_num.rating_value }}</option>
                         {% endif %}
                     {% endfor %}
                 </select>
