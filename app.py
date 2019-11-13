@@ -22,9 +22,31 @@ def full_book_details(book_id):
 
     return render_template('full_book_details.html', book=book)
 
-@app.route('/search_books')
-def search_books():
-    return render_template('search_books.html')
+@app.route('/search_page/')
+def search_page():
+    
+    return render_template(
+        'search_books.html', 
+        all_genre=mongo.db.genre.find())
+
+@app.route('/search_book_function/', methods=['GET', 'POST'])
+def search_book_function():
+    
+    if request.method == 'POST':
+        # Query database, render search template w/ results
+        
+        genre_name = request.form.get('genre_name')
+        results=mongo.db.book.find({"genre_name": genre_name})
+        
+        
+        return render_template('search_books.html', 
+                                all_genre=mongo.db.genre.find(), 
+                                results=results,
+                                genre_count=results.count())
+    
+        
+    else:
+        return render_template('search_books.html', all_genre=mongo.db.genre.find())    
 
 @app.route('/add_book')
 def add_book():
