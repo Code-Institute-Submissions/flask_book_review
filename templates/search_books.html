@@ -9,4 +9,40 @@
         </div>
     </div>
 </div>
+
+<form action="{{ url_for('search_book_function') }}" method="POST">
+    <div class="container">
+        <div class="row">
+            <div class="form-group col-sm-12">
+                <label for="genre_name">Genre</label>
+                <select class="form-control" id="genre_name" name="genre_name">
+                    <option value="" disabled selected>Choose your Genre</option>
+                    {% for genre in all_genre %}
+                        <option value="{{ genre.genre_name }}">{{ genre.genre_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <button class="btn btn-primary" type="submit" name="genre_name">Search</button>
+    </div>
+</form>
+
+{% if results %}
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            {% if genre_count == 0 %}
+                <p>No results yet</p>
+            {% else %}
+                {% for book in results %}
+                    <a href="{{ url_for('full_book_details', book_id=book._id) }}"><p>{{book.book_name}}</p>
+                    <p>{{book.author_name}}</p>
+                    <p>{{book.rating_value}}</p></a>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endif %}
+
 {% endblock %}
