@@ -12,17 +12,26 @@
 <br>
 <div class="container half_width_container">
     <form action="{{ url_for('insert_book') }}" method="POST">
+        <!-- allows some books to be deleted whereas others will be permanent -->
+        <input id="delete_book" name="delete_book" type="hidden" value="true">
         <div class="row">
             <div class="form-group col-sm-12">
                 <label for="book_name">Book Title</label>
-                <input type="text" class="form-control" id="book_name" name="book_name" placeholder="Book Title">
+                <input type="text" class="form-control" id="book_name" name="book_name" placeholder="Book Title" required="True">
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group col-sm-12">
+                <label for="author_name">Book Author</label>
+                <input type="text" class="form-control" id="author_name" name="author_name" placeholder="Book Author" required="True">
             </div>
         </div>
         
         <div class="row">
             <div class="form-group col-sm-12">
                 <label for="genre_name">Genre</label>
-                <select class="form-control" id="genre_name" name="genre_name">
+                <select class="form-control" id="genre_name" name="genre_name" required="True">
                     <option value="" disabled selected>Choose your Genre</option>
                     {% for genre in book_genre %}
                         <option value="{{ genre.genre_name }}">{{ genre.genre_name }}</option>
@@ -33,8 +42,20 @@
 
         <div class="row">
             <div class="form-group col-sm-12">
+                <label for="fact_fiction">Fiction/Non-Fiction</label>
+                <select class="form-control" id="fact_fiction" name="fact_fiction" required="True">
+                    <option value="" disabled selected>Fact or Fiction</option>
+                    {% for fiction_non in fiction_non %}
+                    <option value="{{ fiction_non.fact_fiction }}">{{ fiction_non.fact_fiction }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group col-sm-12">
                 <label for="rating_value">Rating</label>
-                <select class="form-control" id="rating_value" name="rating_value">
+                <select class="form-control" id="rating_value" name="rating_value" required="True">
                     <option value="" disabled selected>Choose your Rating</option>
                     {% for rating in rating %}
                         <option value="{{ rating.rating_value }}">{{ rating.rating_value }}</option>
