@@ -10,6 +10,7 @@
     </div>
 </div>
 
+<!-- Dropdown to search genre -->
 <form action="{{ url_for('search_book_function') }}" method="POST">
     <div class="container">
         <div class="row">
@@ -27,19 +28,107 @@
     </div>
 </form>
 
+<!-- Dropdown to search ratings -->
+<form action="{{ url_for('search_book_function') }}" method="POST">
+    <div class="container">
+        <div class="row">
+            <div class="form-group col-sm-12">
+                <label for="rating_value">Rating</label>
+                <select class="form-control" id="rating_value" name="rating_value">
+                    <option value="" disabled selected>Choose your Rating</option>
+                    {% for rating in ratings %}
+                    <option value="{{ rating.rating_value }}">{{ rating.rating_value }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <button class="btn btn-primary" type="submit" name="genre_name">Search</button>
+    </div>
+</form>
+
+<!-- Results for genre search -->
 {% if results %}
+<div class='container'>
+    <div class='row'>
+        <div class='col-sm-12 col-md-12'>
+
+            {% if genre_count == 0 %}
+            <p>No results found</p>
+            {% elif genre_count == 1 %}
+            <p>{{genre_count}} recipe available</p>
+            {% else %}
+            <p>{{genre_count}} recipes available</p>
+            {% endif %}
+
+
+            <!-- {% for genre in total_genre %}  
+                {% if genre.genre_count == 0 %}
+                    <p>No results found</p>
+                {% elif genre.genre_count == 1 %}
+                    <p>{{genre.genre_count}} {{genre.genre_name}} recipe available</p>
+                {% else %}
+                    <p>hello world</p>
+                {% endif %}
+                
+            {% endfor %} -->
+
+        </div>
+    </div>
+</div>
+
 <div class="container">
     <div class="row">
         <div class="col-sm-12">
-            {% if genre_count == 0 %}
-                <p>No results yet</p>
-            {% else %}
+            
+                
                 {% for book in results %}
-                    <a href="{{ url_for('full_book_details', book_id=book._id) }}"><p>{{book.book_name}}</p>
-                    <p>{{book.author_name}}</p>
-                    <p>{{book.rating_value}}</p></a>
+                    
+                    <a href="{{ url_for('full_book_details', book_id=book._id)}}">
+                        <p>{{book.book_name|title}}</p>
+                    </a>
+                    <p>by {{book.author_name|title}}</p>
+                    <p>Rating: {{book.rating_value}} <i class="fa fa-star star_rating"></i></p>
+                    <hr>
                 {% endfor %}
+            
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<!-- Results for rating search -->
+{% if rating_results %}
+<div class='container'>
+    <div class='row'>
+        <div class='col-sm-12 col-md-12'>
+
+            {% if rating_count == 0 %}
+            <p>No results found</p>
+            {% elif rating_count == 1 %}
+            <p>{{rating_count}} recipe available</p>
+            {% else %}
+            <p>{{rating_count}} recipes available</p>
             {% endif %}
+
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+
+
+            {% for book in rating_results %}
+
+            <a href="{{ url_for('full_book_details', book_id=book._id)}}">
+                <p>{{book.book_name|title}}</p>
+            </a>
+            <p>by {{book.author_name|title}}</p>
+            <p>Rating: {{book.rating_value}} <i class="fa fa-star star_rating"></i></p>
+            <hr>
+            {% endfor %}
+
         </div>
     </div>
 </div>
