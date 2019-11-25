@@ -22,6 +22,13 @@
 
         <div class="row">
             <div class="form-group col-sm-12">
+                <label for="book_url">Image</label>
+                <input type="text" class="form-control" id="book_url" name="book_url" value="{{book.book_url}}" placeholder="Copy image address to get .jpg image type" required="False">
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group col-sm-12">
                 <label for="author_name">Author</label>
                 <input type="text" class="form-control" id="author_name" name="author_name" value="{{book.author_name|title}}">
             </div>
