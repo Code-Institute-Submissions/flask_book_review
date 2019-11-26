@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block page_title %} <title>Fiction Books</title> {% endblock %}
+
+{% block content %}
+<br>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <h2>All Fiction Books</h2>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+   
+    <div class="row flex_container">
+        {% for book in fiction %}
+        <div class="col-sm-12 col-md-4 flex">
+
+            <a href="{{ url_for('full_book_details', book_id=book._id)}}">
+                <p>{{book.book_name|title}}</p>
+            </a>
+            <p>by {{book.author_name|title}}</p>
+            <p>Rating: {{book.rating_value}} <i class="fa fa-star star_rating"></i></p>
+            <p>{{book.genre_name}}</p>
+            <!-- <p><a href="{{ url_for('delete_book', book_id=book._id) }}"
+                class="waves-effect btn btn-small btn-danger">delete</a></p> -->
+
+            <!-- <div class="flex">
+                <a href="{{ url_for('delete_book', book_id=book._id) }}" class="waves-effect btn btn-small btn-danger">delete</a>
+            </div> -->
+
+        </div> <!-- closing col-sm-12 -->
+        {% endfor %}
+    </div> <!-- closing row -->
+
+    <p><a class="btn btn-lg btn-success" href="{{ url_for ('search_page') }}" role="button">Search all books</a></p>
+
+</div> <!-- closing container -->
+
+{% endblock %}

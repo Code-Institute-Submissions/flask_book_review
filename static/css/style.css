@@ -1,0 +1,37 @@
+.half_width_container {
+    width: 50%;
+}
+
+.border_container {
+    border: solid black;
+    border-radius: 5px;
+}
+
+.star_rating {
+    color: gold;
+    font-size: 10px;   
+}
+
+.flex_container {
+	display: flex;
+	flex-flow: row wrap;
+    width: 100%;
+}
+
+.flex {
+	width: 100%;
+	flex: 1;
+	display: flex;
+    flex-flow: column;
+    margin: 20px;
+}
+
+.center-align {
+    text-align: center;
+}
+
+.margin-btn {
+    margin: 5px;
+}
+/* pagination */
+
