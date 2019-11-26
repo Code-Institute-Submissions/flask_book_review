@@ -4,6 +4,7 @@
 {% endblock %}
 
 {% block content %}
+<br>
 <div class="container">
     <div class="row">
         <div class="col-sm-12">
@@ -12,22 +13,61 @@
     </div>
 </div>
 <br>
-<div class="container border_container">
-    <div class="row">
-        <div class="col-sm-12 col-md-12">
-            {% for book in all_books %}
-            <a href="{{ url_for('full_book_details', book_id=book._id)}}"><p>{{book.book_name|title}}</p></a>
-            <p>Author: {{book.author_name|title}}</p>
-            <p>Rating: {{book.rating_value}}</p>
-            <p>{{book.genre_name}}</p>
+
+
+<!-- Fiction jumbotron -->
+<div class="container">
+    <div class="jumbotron page" id="page1">
+        <div class="container">
+            <h1 class="display-3">Top Fiction Titles</h1><br>
             
-            <a href="{{ url_for('delete_book', book_id=book._id) }}" class="waves-effect btn btn-small btn-danger">delete</a>
-                
-            {% endfor %}
-        </div>
+            <div class="row flex_container center-align">
+                {% for book in fiction %}
+                    <div class="col-sm-12 col-md-4 flex">
+                        
+                        <a href="{{ url_for('full_book_details', book_id=book._id)}}">
+                            <p>{{book.book_name|title}}</p>
+                        </a>
+                        <p>by {{book.author_name|title}}</p>
+                        <p>Rating: {{book.rating_value}} <i class="fa fa-star star_rating"></i></p>
+                        <p>{{book.genre_name}}</p> 
+    
+                    </div> <!-- closing col-sm-12 -->
+                {% endfor %}
+            </div> <!-- closing row -->
+            
+            
+            <p><a class="btn btn-lg btn-success" href="{{ url_for ('fiction_books') }}" role="button">All fiction titles</a></p>
+        </div> <!-- closing container -->
+    </div> <!-- closing class jumbotron page-->
+
+    <!-- Non-fiction jumbotron -->
+    <div class="jumbotron page" id="page2">
+        <h1 class="display-3">Top Non-Fiction Titles</h1>
+        <p class="lead">
+            <div class="container">
+                <h2>Non-Fiction</h2>
+                <div class="row flex_container">
+                    {% for book in non_fiction %}
+                    <div class="col-sm-12 col-md-4 flex">
+            
+                        <a href="{{ url_for('full_book_details', book_id=book._id)}}">
+                            <p>{{book.book_name|title}}</p>
+                        </a>
+                        <p>by {{book.author_name|title}}</p>
+                        <p>Rating: {{book.rating_value}} <i class="fa fa-star star_rating"></i></p>
+                        <p>{{book.genre_name}}</p>
+            
+                    </div> <!-- closing col-sm-12 -->
+                    {% endfor %}
+                </div> <!-- closing row -->
+            </div> <!-- closing container -->
+        </p>
+        <p><a class="btn btn-lg btn-success" href="{{ url_for ('non_fiction_books') }}" role="button">All non-fiction titles</a></p>
     </div>
-</div>
+    
+    <ul id="pagination-demo" class="pagination-lg pull-right"></ul>
+</div> <!-- closing container for both boxes-->
+
 <br>
-
-
 {% endblock %}
