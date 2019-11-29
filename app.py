@@ -14,9 +14,16 @@ mongo = PyMongo(app)
 def home():
     all_books = mongo.db.book.find()
 
+
     # Query database - fiction/non-fiction books 
-    non_fiction = mongo.db.book.find({"fact_fiction": "Non-Fiction", "rating_value": "3"})
-    fiction = mongo.db.book.find({"fact_fiction": "Fiction", "rating_value": "4" })
+    non_fiction = mongo.db.book.find({
+        "fact_fiction": "Non-Fiction", 
+        "rating_value":  { "$in": ["5", "4"] }
+        })
+    fiction = mongo.db.book.find({
+        "fact_fiction": "Fiction", 
+        "rating_value": { "$in": ["5", "4"] }
+        })
     
     return render_template('index.html', all_books=all_books, non_fiction=non_fiction, fiction=fiction)
 
