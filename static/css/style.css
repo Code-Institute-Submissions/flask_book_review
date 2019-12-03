@@ -33,5 +33,38 @@
 .margin-btn {
     margin: 5px;
 }
-/* pagination */
 
+.navbar-light .navbar-nav .nav-link {
+    color: black;
+}
+
+.margin-top {
+    margin-top: 10px;
+}
+
+.search_button {
+    border-radius: 10px;
+    background-color: white;
+    box-shadow: none;
+}
+
+.search_hover {
+    background-color: rgba(0, 0, 0, 0.329);
+    color: white;
+}
+
+.sizeLarger {
+    font-size: 20px;
+}
+
+.custom_a {
+    color: black;
+}
+
+.author_color {
+    color: rgb(236, 27, 27);
+}
+
+.title_color {
+    color: black;
+}
