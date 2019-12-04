@@ -12,13 +12,24 @@
         </div>
         
         <div class="col-sm-12 col-md-6">
+            <!-- If book image is successful, the image will be loaded -->
             {% if book.book_url %}
                 <img src="{{book.book_url}}" height="250" width="200" alt="Book Image"></img>
             {% else %}
-                <p>Oops, where's the image? Maybe it hasn't loaded correctly. Do you want to add a link to the picture instead?</p>
-                <a href="{{ url_for('edit_book', book_id=book._id) }}">Click here to add link to image</a>
-            {% endif %}
+            <!-- if the image has not been uploaded correctly: -->
+                <p><img src="{{ url_for('static', filename='img/unknown_book.png' )}}" height="250" width="250" alt="Book Image"></img></p>
                 
+            <!-- If there is a website link already uploaded for a book, only a link to the website will be displayed -->
+                {% if book.book_website %}
+                <p>Oops, looks like your picture hasn't loaded correctly, luckily you've linked a website</p>
+                <p>Click<a href="{{book.book_website}}"> here</a> to be sent to your link</p>
+            <!-- If there isn't a website link uploaded, the user will be asked if they want to link a website  -->
+                {% else %}
+                <p>Oops, looks like your picture hasn't loaded correctly</p>
+                <p>Click <a href="{{ url_for('edit_book', book_id=book._id) }}"> here</a> to link a website for the image</p>
+                {% endif %}
+                
+            {% endif %}
         </div>
     </div>
 </div>
