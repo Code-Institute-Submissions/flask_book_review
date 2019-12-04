@@ -10,12 +10,11 @@
         </div>
     </div>
 </div>
-
+<br>
 <div class="container">
-   
-    <div class="row flex_container">
+    <div class="row">
         {% for book in fiction %}
-        <div class="col-sm-12 col-md-4 flex">
+        <div class="col-sm-12 col-md-4">
 
             <a href="{{ url_for('full_book_details', book_id=book._id)}}">
                 <p>{{book.book_name|title}}</p>
@@ -23,13 +22,7 @@
             <p>by {{book.author_name|title}}</p>
             <p>Rating: {{book.rating_value}} <i class="fa fa-star star_rating"></i></p>
             <p>{{book.genre_name}}</p>
-            <!-- <p><a href="{{ url_for('delete_book', book_id=book._id) }}"
-                class="waves-effect btn btn-small btn-danger">delete</a></p> -->
-
-            <!-- <div class="flex">
-                <a href="{{ url_for('delete_book', book_id=book._id) }}" class="waves-effect btn btn-small btn-danger">delete</a>
-            </div> -->
-
+            <hr>
         </div> <!-- closing col-sm-12 -->
         {% endfor %}
     </div> <!-- closing row -->
