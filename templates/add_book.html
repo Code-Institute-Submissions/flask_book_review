@@ -2,6 +2,7 @@
 {% block page_title %} <title>Add Books</title> {% endblock %}
 
 {% block content %}
+<br>
 <div class="container half_width_container">
     <div class="row">
         <div class="col-sm-12">
@@ -23,19 +24,26 @@
 
         <div class="row">
             <div class="form-group col-sm-12">
-                <label for="book_url">Image</label>
-                <input type="text" class="form-control" id="book_url" name="book_url" placeholder=".jpg image"
-                    required="False">
+                <label for="author_name">Book Author</label>
+                <input type="text" class="form-control" id="author_name" name="author_name" placeholder="Book Author"
+                    required="True">
             </div>
         </div>
 
         <div class="row">
             <div class="form-group col-sm-12">
-                <label for="author_name">Book Author</label>
-                <input type="text" class="form-control" id="author_name" name="author_name" placeholder="Book Author" required="True">
+                <label for="book_url">Image</label>
+                <input type="text" class="form-control" id="book_url" name="book_url" placeholder=".jpg image">
             </div>
         </div>
-        
+
+        <div class="row">
+            <div class="form-group col-sm-12">
+                <label for="book_url">Website Link</label>
+                <input type="text" class="form-control" id="book_url" name="book_url" placeholder="e.g. https://www.waterstones.com">
+            </div>
+        </div>
+
         <div class="row">
             <div class="form-group col-sm-12">
                 <label for="genre_name">Genre</label>
