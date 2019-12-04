@@ -17,9 +17,9 @@
                     <div class="col-sm-12 col-md-4 flex">
                         
                         <a href="{{ url_for('full_book_details', book_id=book._id)}}">
-                            <p>{{book.book_name|title}}</p>
+                            <p class="title_color"><strong>{{book.book_name|title}}</strong></p>
                         </a>
-                        <p>by {{book.author_name|title}}</p>
+                        <p class="author_color">by {{book.author_name|title}}</p>
                         <p>{{book.rating_value}} <i class="fa fa-star star_rating"></i></p>
                         <p>{{book.genre_name}}</p> 
     
@@ -37,17 +37,17 @@
     <!-- Non-fiction jumbotron -->
     <div class="jumbotron page" id="page2">
         <h1 class="display-3">Top Non-Fiction Titles</h1>
-        <p class="lead">
+        
             <div class="container">
-                <h2>Non-Fiction</h2>
+                <br>
                 <div class="row flex_container center-align">
                     {% for book in non_fiction %}
                     <div class="col-sm-12 col-md-4 flex">
             
                         <a href="{{ url_for('full_book_details', book_id=book._id)}}">
-                            <p>{{book.book_name|title}}</p>
+                            <p class="title_color"><strong>{{book.book_name|title}}</strong></p>
                         </a>
-                        <p>by {{book.author_name|title}}</p>
+                        <p class="author_color">by {{book.author_name|title}}</p>
                         <p>{{book.rating_value}} <i class="fa fa-star star_rating"></i></p>
                         <p>{{book.genre_name}}</p>
             
@@ -57,7 +57,7 @@
                     {% endfor %}
                 </div> <!-- closing row -->
             </div> <!-- closing container -->
-        </p>
+        
         <p><a class="btn btn-lg btn-success" href="{{ url_for ('non_fiction_books') }}" role="button">All non-fiction titles</a></p>
     </div>
     
