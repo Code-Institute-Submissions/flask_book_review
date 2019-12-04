@@ -5,16 +5,7 @@
 
 {% block content %}
 <br>
-<div class="container">
-    <div class="row">
-        <div class="col-sm-12">
-            <h2>Book Reviews and Suggestions</h2>
-        </div>
-    </div>
-</div>
 <br>
-
-
 <!-- Fiction jumbotron -->
 <div class="container">
     <div class="jumbotron page" id="page1">
@@ -29,10 +20,12 @@
                             <p>{{book.book_name|title}}</p>
                         </a>
                         <p>by {{book.author_name|title}}</p>
-                        <p>Rating: {{book.rating_value}} <i class="fa fa-star star_rating"></i></p>
+                        <p>{{book.rating_value}} <i class="fa fa-star star_rating"></i></p>
                         <p>{{book.genre_name}}</p> 
     
                     </div> <!-- closing col-sm-12 -->
+                {% else %}
+                <p class="margin-top">Add some 5 or 4 star rated books!</p>
                 {% endfor %}
             </div> <!-- closing row -->
             
@@ -47,7 +40,7 @@
         <p class="lead">
             <div class="container">
                 <h2>Non-Fiction</h2>
-                <div class="row flex_container">
+                <div class="row flex_container center-align">
                     {% for book in non_fiction %}
                     <div class="col-sm-12 col-md-4 flex">
             
@@ -55,10 +48,12 @@
                             <p>{{book.book_name|title}}</p>
                         </a>
                         <p>by {{book.author_name|title}}</p>
-                        <p>Rating: {{book.rating_value}} <i class="fa fa-star star_rating"></i></p>
+                        <p>{{book.rating_value}} <i class="fa fa-star star_rating"></i></p>
                         <p>{{book.genre_name}}</p>
             
                     </div> <!-- closing col-sm-12 -->
+                    {% else %}
+                    <p class="margin-top">Add some 5 or 4 star rated books!</p>
                     {% endfor %}
                 </div> <!-- closing row -->
             </div> <!-- closing container -->
