@@ -18,18 +18,18 @@
         {% for book in non_fiction %}
         <div class="col-sm-12 col-md-4">
             <a href="{{ url_for('full_book_details', book_id=book._id)}}">
-                <p>{{book.book_name|title}}</p>
+                <h5 class="title_color">{{book.book_name|title}}</h5>
             </a>
-            <p>by {{book.author_name|title}}</p>
+            <p class="author_color">by {{book.author_name|title}}</p>
             <p>Rating: {{book.rating_value}} <i class="fa fa-star star_rating"></i></p>
             <p>{{book.genre_name}}</p>
             <hr>
         </div> <!-- closing col-sm-12 -->
         {% endfor %}
     </div> <!-- closing row -->
-
+    <br>
     <p><a class="btn btn-lg btn-success" href="{{ url_for ('search_page') }}" role="button">Search all books</a></p>
-
+    <br>
 </div> <!-- closing container -->
 
 {% endblock %}
