@@ -72,7 +72,7 @@
             
             <!-- Displays results -->
             <a href="{{ url_for('full_book_details', book_id=book._id)}}">
-                <p class="title_color">{{book.book_name|title}}</p>
+                <p class="title_color"><strong>{{book.book_name|title}}</strong></p>
             </a>
             <p class="author_color">by {{book.author_name|title}}</p>
             <hr>

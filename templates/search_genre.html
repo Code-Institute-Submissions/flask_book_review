@@ -67,7 +67,7 @@
         {% for book in results %}
         <div class="col-sm-12 col-md-4">
             <a href="{{ url_for('full_book_details', book_id=book._id)}}">
-                <p class="title_color">{{book.book_name|title}}</p>
+                <p class="title_color"><strong>{{book.book_name|title}}</strong></p>
             </a>
             <p class="author_color">by {{book.author_name|title}}</p>
             <p>{{book.rating_value}} <i class="fa fa-star star_rating"></i></p>
