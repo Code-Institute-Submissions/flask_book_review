@@ -62,18 +62,17 @@
 <br>
 <div class="container">
     <div class="row">
-        
+
         <!-- Display books with the same genre as other suggestions -->
         {% for all in all_books %}
-            <div class="col-sm-12 col-md-4">
-                <!-- Look for whether the genre name in all the books, matches the genre name of the book on this page -->
-                {% if all.genre_name == book.genre_name %}
-                    
+
+            <!-- Look for whether the genre name in all the books, matches the genre name of the book on this page -->
+            {% if all.genre_name == book.genre_name %}
+            
                 <!-- Look for whether the book name is already present -->
                     {% if all.book_name == book.book_name %}
                         
                     {% else  %}
-                    
                     <div class="col-sm-12 col-md-4">  
 
                         <p>{{all.book_name|title}}</p>
@@ -93,20 +92,23 @@
                         {% endif %} <!-- Closing if statement for images -->
                     </div>
                     
+                    {% endif %} <!-- closing 'all.book_name == book.book_name' -->
+
+            <!-- If there isn't a book with the same genre, then it will look for books with the same rating -->
+            {% elif all.genre_name != book.genre_name %}
+                {% if all.rating_value == book.rating_value %}
+                <div class="col-sm-12 col-md-4">
+                    <p>{{all.book_name|title}}</p>
                     
-                    {% endif %} <!-- closing line 72 -->
-
+                </div>
+                {% endif %}
+            
+            {% endif %} <!-- closing 'all.genre_name == book.genre_name' -->
+        {% endfor %} <!-- closing 'for all in all_books'  -->
                 
+    </div> <!-- Closing row -->  
+</div> <!-- Closing container -->
 
-                {% endif %} <!-- closing line 70 -->
-            </div>
-
-        {% endfor %} <!-- closing 'for all in all_books' line 67 -->
-
-        
-    </div>
-    
-</div>
 
 
 {% endblock %}
