@@ -9,6 +9,9 @@
             <h2>{{book.book_name|title}}</h2>
             <p>{{book.author_name|title}}</p>
             <p>{{book.rating_value}} <i class="fa fa-star star_rating"></i></p>
+            <br>
+            <h5>Brief Overview</h5>
+            <p>{{book.book_info|capitalize}}</p>
         </div>
         
         <div class="col-sm-12 col-md-6">
@@ -16,7 +19,7 @@
             {% if book.book_url %}
                 <img src="{{book.book_url}}" height="250" width="200" alt="Book Image"></img>
             {% else %}
-            <!-- if the image has not been uploaded correctly: -->
+            <!-- if the image has not been uploaded correctly a default image will be displayed -->
                 <p><img src="{{ url_for('static', filename='img/unknown_book.png' )}}" height="250" width="250" alt="Book Image"></img></p>
                 
             <!-- If there is a website link already uploaded for a book, only a link to the website will be displayed -->
@@ -34,16 +37,9 @@
     </div>
 </div>
 <br>
-<div class="container">
-    <div class="row">
-        <div class="col-sm-12">
-            <h2>Book description</h2>
-            <p>{{book.book_info|capitalize}}</p>
-        </div>
-    </div>
-</div>
 
 
+<!-- Button to be able to edit or delete a book, if applicable -->
 <div class="container">
     <div class="row">
         {% if book.delete_book == 'false' %}
@@ -53,6 +49,63 @@
             <p><a href="{{ url_for('delete_book', book_id=book._id) }}" class="btn btn-primary margin-btn">Delete Book</a></p>
         {% endif %}
     </div>
+</div>
+<br>
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <h5>You might also like...</h5>
+        </div>
+    </div>
+</div>
+<br>
+<div class="container">
+    <div class="row">
+        
+        <!-- Display books with the same genre as other suggestions -->
+        {% for all in all_books %}
+            <div class="col-sm-12 col-md-4">
+                <!-- Look for whether the genre name in all the books, matches the genre name of the book on this page -->
+                {% if all.genre_name == book.genre_name %}
+                    
+                <!-- Look for whether the book name is already present -->
+                    {% if all.book_name == book.book_name %}
+                        
+                    {% else  %}
+                    
+                    <div class="col-sm-12 col-md-4">  
+
+                        <p>{{all.book_name|title}}</p>
+                        <p>{{all.rating_value}} <i class="fa fa-star star_rating"></i></p>
+                        
+                        <!-- Check if there is an image uploaded for the book, and display it -->
+                        {% if all.book_url %}
+                        <p><a href="{{ url_for('full_book_details', book_id=all._id) }}"><img src="{{all.book_url}}" alt="Book Image"
+                                    height="200" width="150"></p></a>
+                        
+                        <!-- If there isn't an image, then a default one will be shown -->
+                        {% else %}
+                        <p><a href="{{ url_for('full_book_details', book_id=all._id) }}"><img
+                                    src="{{ url_for('static', filename='img/unknown_book.png' )}}" height="200" width="200"
+                                    alt="Book Image"></img></a>
+                        </p>
+                        {% endif %} <!-- Closing if statement for images -->
+                    </div>
+                    
+                    
+                    {% endif %} <!-- closing line 72 -->
+
+                
+
+                {% endif %} <!-- closing line 70 -->
+            </div>
+
+        {% endfor %} <!-- closing 'for all in all_books' line 67 -->
+
+        
+    </div>
+    
 </div>
 
 
