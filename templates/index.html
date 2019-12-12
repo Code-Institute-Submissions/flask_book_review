@@ -21,9 +21,9 @@
                         </a>
                         <p class="author_color">by {{book.author_name|title}}</p>
                         {% if book.book_url %}
-                        <p><img src="{{book.book_url}}" alt="Book Image" height="200" width="150"></p>
+                        <p><a href="{{ url_for('full_book_details', book_id=book._id) }}"><img src="{{book.book_url}}" alt="Book Image" height="200" width="150"></p></a>
                         {% else %}
-                        <p><img src="{{ url_for('static', filename='img/unknown_book.png' )}}" height="200" width="200" alt="Book Image"></img>
+                        <p><a href="{{ url_for('full_book_details', book_id=book._id) }}"><img src="{{ url_for('static', filename='img/unknown_book.png' )}}" height="200" width="200" alt="Book Image"></img></a>
                         </p>
                         {% endif %}
                         <p>{{book.rating_value}} <i class="fa fa-star star_rating"></i></p>
@@ -55,9 +55,9 @@
                         </a>
                         <p class="author_color">by {{book.author_name|title}}</p>
                         {% if book.book_url %}
-                        <p><img src="{{book.book_url}}" alt="Book Image" height="200" width="150"></p>
+                        <p><a href="{{ url_for('full_book_details', book_id=book._id) }}"><img src="{{book.book_url}}" alt="Book Image" height="200" width="150"></p></a>
                         {% else %}
-                        <p><img src="{{ url_for('static', filename='img/unknown_book.png' )}}" height="200" width="200" alt="Book Image"></img>
+                        <p><a href="{{ url_for('full_book_details', book_id=book._id) }}"><img src="{{ url_for('static', filename='img/unknown_book.png' )}}" height="200" width="200" alt="Book Image"></img></a>
                         </p>
                         {% endif %}
                         <p>{{book.rating_value}} <i class="fa fa-star star_rating"></i></p>
