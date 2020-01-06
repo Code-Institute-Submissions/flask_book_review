@@ -32,6 +32,7 @@
         {% for genre in all_genre %}
         <form action="{{ url_for('search_genre_function') }}" method="POST">
             
+            <!-- Displays the different genre types available as buttons -->
             <div class="col-sm-12 col-md-4">
                 <button class="search_button" type="submit" name="genre_name" value="{{genre.genre_name}}">{{genre.genre_name}}</button>
             </div>
@@ -66,14 +67,19 @@
     <div class="row">
         {% for book in results %}
         <div class="col-sm-12 col-md-4">
+            <!-- Image links to full book details page -->
             <a href="{{ url_for('full_book_details', book_id=book._id)}}">
                 <p class="title_color"><strong>{{book.book_name|title}}</strong></p>
             </a>
             <p class="author_color">by {{book.author_name|title}}</p>
             <p>{{book.rating_value}} <i class="fa fa-star star_rating"></i></p>
+
+            <!-- If there is an image uploaded for the book then it will be displayed -->
             {% if book.book_url %}
             <p><a href="{{ url_for('full_book_details', book_id=book._id) }}"><img src="{{book.book_url}}" alt="Book Image"
                         height="200" width="150"></p></a>
+            
+            <!-- A default image will be displayed if there isn't an image uploaded -->
             {% else %}
             <p><a href="{{ url_for('full_book_details', book_id=book._id) }}"><img
                         src="{{ url_for('static', filename='img/unknown_book.png' )}}" height="200" width="200"
