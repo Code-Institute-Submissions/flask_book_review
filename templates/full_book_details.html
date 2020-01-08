@@ -46,11 +46,18 @@
             <p><a href="{{ url_for('edit_book', book_id=book._id) }}" class="btn btn-primary margin-btn">Edit Book</a></p>
         {% else %}
             <p><a href="{{ url_for('edit_book', book_id=book._id) }}" class="btn btn-primary margin-btn">Edit Book</a></p>
-            <p><a href="{{ url_for('delete_book', book_id=book._id) }}" class="btn btn-primary margin-btn">Delete Book</a></p>
+
+            <div>
+                <button onclick="myFunction()">Delete book</button>
+                <p id="demo"></p>
+                <form id="deleteForm{{book._id}}" action="{{ url_for('delete_book', book_id=book._id) }}" method="GET"></form>
+            </div>
+
         {% endif %}
     </div>
 </div>
 <br>
+
 
 <div class="container">
     <div class="row">
@@ -66,43 +73,33 @@
         <!-- Display books with the same genre as other suggestions -->
         {% for all in all_books %}
 
-            <!-- Look for whether the genre name in all the books, matches the genre name of the book on this page -->
+            <!-- Check whether there are any books in the database with the same genre as the one on this page -->
             {% if all.genre_name == book.genre_name %}
             
-                <!-- Look for whether the book name is already present -->
+                <!-- Don't display the book that's already on this page -->
                     {% if all.book_name == book.book_name %}
                         
                     {% else  %}
-                    <div class="col-sm-12 col-md-4">  
+                    <!-- The result of the books with the same genre -->
+                        <div class="col-sm-12 col-md-4">  
 
-                        <p>{{all.book_name|title}}</p>
-                        <p>{{all.rating_value}} <i class="fa fa-star star_rating"></i></p>
-                        
-                        <!-- Check if there is an image uploaded for the book, and display it -->
-                        {% if all.book_url %}
-                        <p><a href="{{ url_for('full_book_details', book_id=all._id) }}"><img src="{{all.book_url}}" alt="Book Image"
-                                    height="200" width="150"></p></a>
-                        
-                        <!-- If there isn't an image, then a default one will be shown -->
-                        {% else %}
-                        <p><a href="{{ url_for('full_book_details', book_id=all._id) }}"><img
-                                    src="{{ url_for('static', filename='img/unknown_book.png' )}}" height="200" width="200"
-                                    alt="Book Image"></img></a>
-                        </p>
-                        {% endif %} <!-- Closing if statement for images -->
-                    </div>
-                    
+                            <p>{{all.book_name|title}}</p>
+                            <p>{{all.rating_value}} <i class="fa fa-star star_rating"></i></p>
+                            
+                            <!-- Check if there is an image uploaded for the book, and display it -->
+                            {% if all.book_url %}
+                            <p><a href="{{ url_for('full_book_details', book_id=all._id) }}"><img src="{{all.book_url}}" alt="Book Image"
+                                        height="200" width="150"></p></a>
+                            
+                            <!-- If there isn't an image, then a default one will be shown -->
+                            {% else %}
+                            <p><a href="{{ url_for('full_book_details', book_id=all._id) }}"><img
+                                        src="{{ url_for('static', filename='img/unknown_book.png' )}}" height="200" width="200"
+                                        alt="Book Image"></img></a>
+                            </p>
+                            {% endif %} <!-- Closing if statement for images -->
+                        </div>
                     {% endif %} <!-- closing 'all.book_name == book.book_name' -->
-
-            <!-- If there isn't a book with the same genre, then it will look for books with the same rating -->
-            {% elif all.genre_name != book.genre_name %}
-                {% if all.rating_value == book.rating_value %}
-                <div class="col-sm-12 col-md-4">
-                    <p>{{all.book_name|title}}</p>
-                    
-                </div>
-                {% endif %}
-            
             {% endif %} <!-- closing 'all.genre_name == book.genre_name' -->
         {% endfor %} <!-- closing 'for all in all_books'  -->
                 
@@ -110,5 +107,18 @@
 </div> <!-- Closing container -->
 
 
+<!-- A different message is displayed if there aren't any similar books -->
+
+{% if book_num|length > 1 %}
+
+{% else %}
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <p>Add more books to find similar ones</p>
+        </div>
+    </div>
+</div>
+{% endif %}
 
 {% endblock %}
