@@ -57,7 +57,7 @@ I wanted to create a simple UX and UI design that was easy to use. I used wirefr
 
 ## Testing techniques 
 
-When testing the code for this website http://jshint.com, manual testing and Google’s responsive web tester were utilized . 
+When testing the code for this website http://jshint.com, manual testing and Google’s responsive web tester were utilized. 
 
 ### Manual testing
 
