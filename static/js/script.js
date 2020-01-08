@@ -19,3 +19,19 @@ $(document).ready(function () {
         $(this).removeClass('sizeLarger')
     });
 });
+
+function myFunction(id) {
+    var txt;
+    form = document.getElementById("deleteForm" + id);
+    
+    if (confirm("Are you sure you want to delete? Press okay if you're sure")) {
+        txt = "Book has been deleted!";
+        form.submit();
+        
+    } else {
+        txt = "It won't be deleted!";
+    }
+    document.getElementById("demo").innerHTML = txt;
+    console.log("deleteForm" + id)
+}
+
