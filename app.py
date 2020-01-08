@@ -12,80 +12,130 @@ mongo = PyMongo(app)
 @app.route('/')
 @app.route('/home')
 def home():
-    all_books = mongo.db.book.find()
-
-
+    
     # Query database - fiction/non-fiction books 
     non_fiction = mongo.db.book.find({
         "fact_fiction": "Non-Fiction", 
         "rating_value":  { "$in": ["5", "4"] }
-        })
+        }).limit(4)
     fiction = mongo.db.book.find({
         "fact_fiction": "Fiction", 
         "rating_value": { "$in": ["5", "4"] }
-        })
+        }).limit(4)
     
-    return render_template('index.html', all_books=all_books, non_fiction=non_fiction, fiction=fiction)
+    return render_template('index.html', non_fiction=non_fiction, fiction=fiction)
 
+
+# Loads the page that displays the full details of a book 
 @app.route('/full_book_details/<book_id>')
 def full_book_details(book_id):
-    book=mongo.db.book.find_one({'_id': ObjectId(book_id)})
     
-    return render_template('full_book_details.html', book=book)
+    # All the books in the database 
+    all_books=mongo.db.book.find()
 
+    # Finds the individual book being displayed 
+    book=mongo.db.book.find_one({'_id': ObjectId(book_id)})
+
+    # Array that will hold how many books match the genre of the book currently displayed
+    book_num = []
+
+    # Database query - find books with a matching genre 
+    similar_genre_books=mongo.db.book.find({"genre_name": book["genre_name"]})
+    
+    # Append all the books with a matching genre to the book_num list
+    for items in similar_genre_books:
+        book_num.append(items)
+
+    
+    return render_template('full_book_details.html', 
+                            book=book, 
+                            all_books=all_books, 
+                            similar_genre_books=similar_genre_books, 
+                            book_num=book_num)
+
+
+# Loads page for fiction books
 @app.route('/fiction_books')
 def fiction_books():
-    
-    fiction=mongo.db.book.find({"fact_fiction": "Fiction"})
+    fiction=mongo.db.book.find({"fact_fiction": "Fiction"}).sort("author_name", 1)
+
     return render_template('fiction_books.html', fiction=fiction)
 
+
+# Loads non fiction books
 @app.route('/non_fiction_books')
 def non_fiction_books():
-    
-    non_fiction=mongo.db.book.find({"fact_fiction": "Non-Fiction"})
+    non_fiction=mongo.db.book.find({"fact_fiction": "Non-Fiction"}).sort("author_name", 1)
+
     return render_template('non_fiction_books.html', non_fiction=non_fiction)
 
 
+# Loads page to search books 
 @app.route('/search_page/')
 def search_page():
-    
+    books = mongo.db.book.find().sort("author_name", 1)
+
     return render_template(
         'search_books.html', 
         all_genre=mongo.db.genre.find(),
-        ratings=mongo.db.rating.find())
+        ratings=mongo.db.rating.find(),
+        books=books)
 
-@app.route('/search_book_function/', methods=['GET', 'POST'])
-def search_book_function():
-    
+
+# Page to search genre 
+@app.route('/search_genre')
+def search_genre():
+    books = mongo.db.book.find().sort("author_name", 1)
+    genre_name = request.form.get('genre_name')
+    genre_result=mongo.db.book.find({"genre_name": genre_name})
+
+    return render_template("search_genre.html", 
+                            all_genre=mongo.db.genre.find(),
+                            ratings=mongo.db.rating.find(),
+                            genre_result=genre_result,
+                            books=books)
+
+# Function to search based on genre 
+@app.route('/search_genre_function', methods=['GET', 'POST'])
+def search_genre_function():
+
     if request.method == 'POST':
-        # genre 
-        all_genre=mongo.db.genre.find()
+        genre_name = request.form.get('genre_name')
+        results=mongo.db.book.find({"genre_name": genre_name}).sort("rating_value", -1)
+        genre_count=results.count()
+        
+    return render_template("search_genre.html",
+                            all_genre=mongo.db.genre.find(),
+                            genre_name=genre_name,
+                            results=results,
+                            genre_count=genre_count)
 
 
-        # ratings 
-        ratings=mongo.db.rating.find()
+# Page to search rating
+@app.route('/search_rating')
+def search_rating():
+    return render_template("search_rating.html",
+                            all_genre=mongo.db.genre.find(),
+                            ratings=mongo.db.rating.find())
 
-        if all_genre:
-            genre_name = request.form.get('genre_name')
-            results=mongo.db.book.find({"genre_name": genre_name})
-        
-        if ratings:
-            rating_value = request.form.get('rating_value')
-            rating_results=mongo.db.book.find({"rating_value": rating_value})
-        
-        
-        return render_template('search_books.html', 
-                                all_genre=mongo.db.genre.find(), 
-                                ratings=mongo.db.rating.find(),
-                                results=results,
-                                rating_results=rating_results,
-                                rating_count=rating_results.count(),
-                                genre_count=results.count())
-    
-        
-    else:
-        return render_template('search_books.html', all_genre=mongo.db.genre.find())    
+# Function to search based on rating 
+@app.route('/search_rating_function', methods=['GET', 'POST'])
+def search_rating_function():
 
+    if request.method == 'POST':
+        rating_value = request.form.get('rating_value')
+        rating_results=mongo.db.book.find({"rating_value": rating_value}).sort("author_name", 1)
+        rating_count=rating_results.count()
+        
+
+    return render_template("search_rating.html",
+                            ratings=mongo.db.rating.find(),
+                            rating_value=rating_value,
+                            rating_results=rating_results,
+                            rating_count=rating_count)
+
+
+# Page user lands on to add a new book
 @app.route('/add_book')
 def add_book():
     book_genre = mongo.db.genre.find()
@@ -93,14 +143,16 @@ def add_book():
     fiction_non = mongo.db.type.find()
     return render_template('add_book.html', book_genre=book_genre, rating=rating, fiction_non=fiction_non)
 
+
+# Function to add a new book 
 @app.route('/insert_book', methods=['POST'])
 def insert_book():
-
     books = mongo.db.book
     books.insert_one(request.form.to_dict())
-
+    
     return redirect(url_for('home'))
 
+# Page user lands on to edit book
 @app.route('/edit_book/<book_id>')
 def edit_book(book_id):
     books = mongo.db.book.find_one({"_id": ObjectId(book_id)})
@@ -110,8 +162,11 @@ def edit_book(book_id):
 
     return render_template('edit_book.html', book=books, all_genre=all_genre, rating=rating, fact_fiction=fact_fiction)
 
+
+# Function that is activated to edit a book
 @app.route('/update_book/<book_id>', methods=['POST'])
 def update_book(book_id):
+    
     book = mongo.db.book
     book.update({"_id": ObjectId(book_id)},
     {
@@ -122,11 +177,13 @@ def update_book(book_id):
         'book_info':request.form.get('book_info'),
         'fact_fiction':request.form.get('fact_fiction'),
         'delete_book': request.form.get('delete_book'),
-        'book_url': request.form.get('book_url')
+        'book_url': request.form.get('book_url'),
+        'book_website': request.form.get('book_website')
     })
 
     return redirect(url_for('home'))
 
+# Function to delete a book 
 @app.route('/delete_book/<book_id>')
 def delete_book(book_id):
     
