@@ -2,136 +2,62 @@
 {% block page_title %} <title>Search Books</title> {% endblock %}
 
 {% block content %}
+<br>
 <div class="container">
     <div class="row">
         <div class="col-sm-12">
-            <h2>Search All Books</h2>
-        </div>
-    </div>
-</div>
-
-<!-- Dropdown to search genre -->
-<form action="{{ url_for('search_book_function') }}" method="POST">
-    <div class="container">
-        <div class="row">
-            <div class="form-group col-sm-12">
-                <label for="genre_name">Genre</label>
-                <select class="form-control" id="genre_name" name="genre_name">
-                    <option value="" disabled selected>Choose your Genre</option>
-                    {% for genre in all_genre %}
-                        <option value="{{ genre.genre_name }}">{{ genre.genre_name }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-        </div>
-        <button class="btn btn-primary" type="submit" name="genre_name">Search</button>
-    </div>
-</form>
-
-<!-- Dropdown to search ratings -->
-<form action="{{ url_for('search_book_function') }}" method="POST">
-    <div class="container">
-        <div class="row">
-            <div class="form-group col-sm-12">
-                <label for="rating_value">Rating</label>
-                <select class="form-control" id="rating_value" name="rating_value">
-                    <option value="" disabled selected>Choose your Rating</option>
-                    {% for rating in ratings %}
-                    <option value="{{ rating.rating_value }}">{{ rating.rating_value }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-        </div>
-        <button class="btn btn-primary" type="submit" name="genre_name">Search</button>
-    </div>
-</form>
-
-<!-- Results for genre search -->
-{% if results %}
-<div class='container'>
-    <div class='row'>
-        <div class='col-sm-12 col-md-12'>
-
-            {% if genre_count == 0 %}
-            <p>No results found</p>
-            {% elif genre_count == 1 %}
-            <p>{{genre_count}} recipe available</p>
-            {% else %}
-            <p>{{genre_count}} recipes available</p>
-            {% endif %}
-
-
-            <!-- {% for genre in total_genre %}  
-                {% if genre.genre_count == 0 %}
-                    <p>No results found</p>
-                {% elif genre.genre_count == 1 %}
-                    <p>{{genre.genre_count}} {{genre.genre_name}} recipe available</p>
-                {% else %}
-                    <p>hello world</p>
-                {% endif %}
-                
-            {% endfor %} -->
-
-        </div>
-    </div>
-</div>
-
-<div class="container">
-    <div class="row">
-        <div class="col-sm-12">
-            
-                
-                {% for book in results %}
-                    
-                    <a href="{{ url_for('full_book_details', book_id=book._id)}}">
-                        <p>{{book.book_name|title}}</p>
-                    </a>
-                    <p>by {{book.author_name|title}}</p>
-                    <p>Rating: {{book.rating_value}} <i class="fa fa-star star_rating"></i></p>
-                    <hr>
-                {% endfor %}
-            
-        </div>
-    </div>
-</div>
-{% endif %}
-
-<!-- Results for rating search -->
-{% if rating_results %}
-<div class='container'>
-    <div class='row'>
-        <div class='col-sm-12 col-md-12'>
-
-            {% if rating_count == 0 %}
-            <p>No results found</p>
-            {% elif rating_count == 1 %}
-            <p>{{rating_count}} recipe available</p>
-            {% else %}
-            <p>{{rating_count}} recipes available</p>
-            {% endif %}
-
-        </div>
-    </div>
-</div>
-
-<div class="container">
-    <div class="row">
-        <div class="col-sm-12">
-
-
-            {% for book in rating_results %}
-
-            <a href="{{ url_for('full_book_details', book_id=book._id)}}">
-                <p>{{book.book_name|title}}</p>
+            <a href="{{ url_for('search_page') }}">
+                <h2 class="custom_a">Search All Books</h2>
             </a>
-            <p>by {{book.author_name|title}}</p>
-            <p>Rating: {{book.rating_value}} <i class="fa fa-star star_rating"></i></p>
-            <hr>
-            {% endfor %}
-
         </div>
     </div>
 </div>
-{% endif %}
+
+<br>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12 col-md-2">
+            <p><a class="search_heading custom_a" href="{{ url_for('search_genre') }}">Search by genre</a></p>
+        </div>
+        <div class="col-sm-12 col-md-2">
+            <p><a class="search_heading custom_a" href="{{ url_for('search_rating') }}">Search by ratings</a></p>
+        </div>
+    </div>
+</div>
+<br>
+<br>
+
+<!-- Displays all books in the database -->
+<div class="container">
+    <div class="row">
+        {% for book in books %}
+        <div class="col-sm-12 col-md-4">
+
+            <!-- Image links to full book details page -->
+            <a href="{{ url_for('full_book_details', book_id=book._id)}}">
+                <h5 class="title_color">{{book.book_name|title}}</h5> 
+            </a>
+            
+            <p class="author_color">by {{book.author_name|title}}</p>
+            <p>{{book.rating_value}} <i class="fa fa-star star_rating"></i></p>
+
+            <!-- If there is an image uploaded for the book then it will be displayed -->
+            {% if book.book_url %}
+            <p><a href="{{ url_for('full_book_details', book_id=book._id) }}"><img src="{{book.book_url}}" alt="Book Image"
+                        height="200" width="150"></p></a>
+
+            <!-- A default image will be displayed if there isn't an image uploaded -->
+            {% else %}
+            <p><a href="{{ url_for('full_book_details', book_id=book._id) }}"><img
+                        src="{{ url_for('static', filename='img/unknown_book.png' )}}" height="200" width="200"
+                        alt="Book Image"></img></a>
+            </p>
+            {% endif %}
+            <hr>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+<br>
 
 {% endblock %}
