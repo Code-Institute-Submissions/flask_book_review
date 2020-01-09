@@ -48,7 +48,7 @@
             <p><a href="{{ url_for('edit_book', book_id=book._id) }}" class="btn btn-primary margin-btn">Edit Book</a></p>
 
             <div>
-                <button onclick="myFunction()">Delete book</button>
+                <button class="btn btn-primary margin-btn" onclick="deleteConfirm('{{ book._id }}')">Delete book</button>
                 <p id="demo"></p>
                 <form id="deleteForm{{book._id}}" action="{{ url_for('delete_book', book_id=book._id) }}" method="GET"></form>
             </div>
@@ -57,7 +57,6 @@
     </div>
 </div>
 <br>
-
 
 <div class="container">
     <div class="row">
