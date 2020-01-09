@@ -20,18 +20,18 @@ $(document).ready(function () {
     });
 });
 
-function myFunction(id) {
-    var txt;
+// Function that pops an alert on the browser with a confirmation before a book is deleted 
+function deleteConfirm(id) {
+    var message;
     form = document.getElementById("deleteForm" + id);
     
     if (confirm("Are you sure you want to delete? Press okay if you're sure")) {
-        txt = "Book has been deleted!";
+        message = "Book has been deleted!";
         form.submit();
         
     } else {
-        txt = "It won't be deleted!";
+        message = "It won't be deleted!";
     }
-    document.getElementById("demo").innerHTML = txt;
-    console.log("deleteForm" + id)
+    document.getElementById("demo").innerHTML = message;
 }
 
