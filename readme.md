@@ -16,11 +16,18 @@ On Github there is an error whereby it states there are 2 contributors. The reas
 The files that were affected during initial commit when there was a fault with the username were: 
 * requirements.txt
 * app.py
- 
+
+### Potential issue with how images are stored
+
+Currently images aren’t stored locally. Images are displayed based on the url that users upload, and taking that image from the Internet. This could then cause potential issues, whereby if this image were to no longer be available, then it would cause a broken image file to be shown. 
+
+For the sake of this project, this method for storing images has been kept, however in the future I would like to incorporate a system that would allow images to be stored locally. 
 
 ## UX and UI
 
-I wanted to create a simple UX and UI design that was easy to use. I used wireframes in order to ensure this was achieved. I also wanted to create a mobile first and responsive website that responded to various screen sizes. 
+I wanted to build a website that was simple and easy to manoeuvre through. I used Balsamiq to create wireframes in order to achieve this goal. 
+
+I also created a mobile first website that was responsive in order to have a successful UX and UI.  
 
 ## Features
 
@@ -40,11 +47,13 @@ I wanted to create a simple UX and UI design that was easy to use. I used wirefr
 
 ### Features left to implement 
 
+* I want to learn more about added security features for the backend and different types of validation that can be used in this context.
 * I would like to experiment with Javascript to see how it can further be used to enhance the usability of a website.
 * Develop username capabilities.
 * Allow users to comment on books, and leave their own reviews.
 * Experiment with other ways users can add images in order to make it easier, and not having to rely on the correct image url being uploaded.
 * I would like to experiment with AJAX, such as applying functions without having the page reload. 
+* Develop a method to store images locally, therefore gaining control. 
 
 ## Methods used
 
@@ -64,11 +73,40 @@ When testing the code for this website http://jshint.com, manual testing and Goo
 * https://chrome.google.com/webstore/detail/responsive-web-design-tes/bdpelkpfhjfiacjeobkhlkkgaphbobea.
     - This chrome plug in was used when testing HTML and CSS to assess the responsiveness of the website on different screen sizes. 
 * I also tested the website on different browsers.
+* I manually tested all functions 
+    - Includes testing forms by adding and editing books. I tested the delete function and ensured the confirmation message before deletion was working correctly. 
+    - All search functions were tested. 
+* Ensured books were displayed as intended:
+    - Correctly separating fiction and non-fiction books
+    - Top 5 rated books were displayed on the home page, and only those books with a 4 or 5 star rating.
+* Tested images:
+    - Images were displayed correctly, especially when an image wasn't uploaded correctly.  
+ 
 
+### Form validation 
+
+I wanted to confirm that all the forms were working as intended and had been validated. In order to do so I performed manual tests, which included attempting to submit the forms without any data present. This was to ensure that an error message was displayed which prompted the user to first input the required data. 
 
 ## Deployment
 
 Github and Heroku were both used for deployment.
+
+Heroku live website link:
+
+
+### Heroku deployment method:
+
+1. Create a Heroku account: https://heroku.com.
+2. Install the Heroku CLI on your machine: https://devcenter.heroku.com/articles/heroku-cli
+3. Confirm the Heroku CLI has been installed correctly by seeing which Heroku version you are using: 
+    ```sh
+        heroku --version
+    ```
+4. Log in to Heroku from your terminal in order to connect to the Heroku CLI:
+    ```sh
+        heroku login
+    ```
+    - You will then be given instructions to follow in your command line.
 
 ## Credits
 
