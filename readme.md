@@ -75,7 +75,7 @@ When testing the code for this website http://jshint.com, manual testing and Goo
 * I also tested the website on different browsers.
 * I manually tested all functions 
     - Includes testing forms by adding and editing books. I tested the delete function and ensured the confirmation message before deletion was working correctly. 
-    - All search functions were tested. 
+    - All search functions were tested by manually searching books and ensuring the correct ones were identified. 
 * Ensured books were displayed as intended:
     - Correctly separating fiction and non-fiction books
     - Top 5 rated books were displayed on the home page, and only those books with a 4 or 5 star rating.
