@@ -93,6 +93,7 @@ Github and Heroku were both used for deployment.
 
 Heroku live website link:
 
+https://sara-book-project.herokuapp.com
 
 ### Heroku deployment method:
 
