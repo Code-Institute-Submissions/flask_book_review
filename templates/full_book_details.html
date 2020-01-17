@@ -81,8 +81,10 @@
                     {% else  %}
                     <!-- The result of the books with the same genre -->
                         <div class="col-sm-12 col-md-4">  
-
-                            <p>{{all.book_name|title}}</p>
+                            <a href="{{ url_for('full_book_details', book_id=all._id)}}">
+                                <h5 class="title_color">{{all.book_name|title}}</h5>
+                            </a>
+                            <p class="author_color">{{all.author_name|title}}</p>
                             <p>{{all.rating_value}} <i class="fa fa-star star_rating"></i></p>
                             
                             <!-- Check if there is an image uploaded for the book, and display it -->
