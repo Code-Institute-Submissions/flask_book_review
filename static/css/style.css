@@ -43,9 +43,9 @@
 }
 
 .search_button {
-    border-radius: 10px;
+    border-radius: 5px;
     background-color: white;
-    box-shadow: none;
+    border: 1px solid black;
 }
 
 .search_hover {
