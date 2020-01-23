@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% block page_title %} <title>Non-Fiction Genre Search</title> {% endblock %}
+
+{% block content %}
+<br>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <a href="{{ url_for('non_fiction_books') }}">
+                <h2 class="custom_a">All Non-Fiction Books</h2>
+            </a>
+        </div>
+    </div>
+</div>
+<br>
+<!-- Displays the genres associated with the fiction titles -->
+<div class="container">
+    <div class="row">
+        {% for genres in non_fiction_genres %}
+        <form action="{{ url_for('non_fiction_genre_search') }}" method="POST">
+            <div class="col-sm-12 col-md-4">
+                <button class="search_button" type="submit" name="genre_name"
+                    value="{{genres.genre_name}}">{{genres.genre_name}}</button>
+            </div>
+        </form>
+        {% endfor %}
+    </div>
+</div>
+
+<br>
+<!-- Results for genre search -->
+{% if genre_results %}
+<div class='container'>
+    <div class='row'>
+        <div class='col-sm-12 col-md-12'>
+
+            <!-- Count for results -->
+            {% if genre_count == 0 %}
+                <p>No {{genre_name}} Books Found</p>
+            {% elif genre_count == 1 %}
+                <p>{{genre_count}} {{genre_name}} Book Found</p>
+            {% else %}
+                <p>{{genre_count}} {{genre_name}} Books Found</p>
+            {% endif %}
+
+        </div>
+    </div>
+</div>
+<br>
+<!-- Displays results -->
+<div class="container">
+    <div class="row">
+        {% for book in genre_results %}
+        <div class="col-sm-12 col-md-4">
+            <!-- Image links to full book details page -->
+            <a href="{{ url_for('full_book_details', book_id=book._id)}}">
+                <p class="title_color"><strong>{{book.book_name|title}}</strong></p>
+            </a>
+
+            <p class="author_color">by {{book.author_name|title}}</p>
+            <p>{{book.rating_value}} <i class="fa fa-star star_rating"></i></p>
+
+            <!-- If there is an image uploaded for the book then it will be displayed -->
+            {% if book.book_url %}
+                <p><a href="{{ url_for('full_book_details', book_id=book._id) }}"><img src="{{book.book_url}}"
+                            alt="Book Image" height="200" width="150"></p></a>
+
+            <!-- A default image will be displayed if there isn't an image uploaded -->
+            {% else %}
+                <p><a href="{{ url_for('full_book_details', book_id=book._id) }}"><img
+                            src="{{ url_for('static', filename='img/unknown_book.png' )}}" height="200" width="200"
+                            alt="Book Image"></img></a>
+                </p>
+            {% endif %}
+            <hr>
+        </div> <!-- Close col classes -->
+        {% endfor %}
+    </div> <!-- Close row -->
+</div> <!-- Close container -->
+{% endif %}
+
+{% endblock %}
