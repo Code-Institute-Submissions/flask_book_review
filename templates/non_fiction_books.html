@@ -11,22 +11,43 @@
     </div>
 </div>
 <br>
+<!-- Displays the genres associated with the non-fiction titles -->
+<div class="container">
+    <div class="row">
+        {% for genre in non_fiction_genres %}
+        <form action="{{ url_for('non_fiction_genre_search') }}" method="POST">
+            <div class="col-sm-12 col-md-4">
+                <button class="search_button" type="submit" name="genre_name"
+                    value="{{genre.genre_name}}">{{genre.genre_name}}</button>
+            </div>
+        </form>
+        {% endfor %}
+    </div>
+</div>
+<br>
 
 <!-- Displays all non-fiction books -->
 <div class="container">
     <div class="row">
+
         {% for book in non_fiction %}
         <div class="col-sm-12 col-md-4">
+            <!-- Book name with link to full details of the book -->
             <a href="{{ url_for('full_book_details', book_id=book._id)}}">
                 <h5 class="title_color">{{book.book_name|title}}</h5>
             </a>
+
             <p class="author_color">by {{book.author_name|title}}</p>
             <p>{{book.rating_value}} <i class="fa fa-star star_rating"></i></p>
+
+            <!-- The book's image will be displayed if there is one -->
             {% if book.book_url %}
                 <p>
                     <a href="{{ url_for('full_book_details', book_id=book._id) }}"><img src="{{book.book_url}}" alt="Book Image"
                         height="200" width="150"></a>
                 </p>
+            
+            <!-- If there isn't an image uploaded, then a default image will be displayed instead -->
             {% else %}
                 <p>
                     <a href="{{ url_for('full_book_details', book_id=book._id) }}"><img
@@ -39,7 +60,25 @@
         </div> <!-- closing col-sm-12 -->
         {% endfor %}
     </div> <!-- closing row -->
+
+    <!-- Pagination -->
+    <ul class="pagination">
+        {% for page_number in page %}
+
+            <!-- Displays the current page number -->
+            {% if page_number == current_page %}
+                <li class="active"><a class="pagination">{{ page_number }}</a></li>
+            
+                <!-- Displays the next page number(s) -->
+            {% else %}
+                <li class="waves-effect"><a class="pagination"
+                        href="{{ url_for('non_fiction_books', current_page=page_number) }}">{{ page_number }}</a></li>
+                
+            {% endif %}
+        {% endfor %}
+    </ul>
     <br>
+
     <p><a class="btn btn-lg btn-success" href="{{ url_for ('search_page') }}" role="button">Search all books</a></p>
     <br>
 </div> <!-- closing container -->
