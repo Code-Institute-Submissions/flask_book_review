@@ -68,3 +68,10 @@
 .title_color {
     color: black;
 }
+
+a.pagination {
+    margin: 5px;
+    font-size: 20px;
+}
+
+
