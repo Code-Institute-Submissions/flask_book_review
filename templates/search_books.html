@@ -7,33 +7,33 @@
     <div class="row">
         <div class="col-sm-12">
             <a href="{{ url_for('search_page') }}">
-                <h2 class="custom_a">Search All Books</h2>
+                <h2 class="custom_a">All Books</h2>
             </a>
         </div>
     </div>
 </div>
-
 <br>
+
 <div class="container">
     <div class="row">
         <div class="col-sm-12 col-md-2">
-            <p><a class="search_heading custom_a" href="{{ url_for('search_genre') }}">Search by genre</a></p>
+            <p><a class="search_heading custom_a" href="{{ url_for('search_genre') }}">Filter by genre</a></p>
         </div>
         <div class="col-sm-12 col-md-2">
-            <p><a class="search_heading custom_a" href="{{ url_for('search_rating') }}">Search by ratings</a></p>
+            <p><a class="search_heading custom_a" href="{{ url_for('search_rating') }}">Filter by ratings</a></p>
         </div>
     </div>
 </div>
 <br>
-<br>
 
+<br>
 <!-- Displays all books in the database -->
 <div class="container">
     <div class="row">
         {% for book in books %}
         <div class="col-sm-12 col-md-4">
 
-            <!-- Image links to full book details page -->
+            <!-- Book title, as well as image redirecting to full book details page -->
             <a href="{{ url_for('full_book_details', book_id=book._id)}}">
                 <h5 class="title_color">{{book.book_name|title}}</h5> 
             </a>
@@ -43,21 +43,35 @@
 
             <!-- If there is an image uploaded for the book then it will be displayed -->
             {% if book.book_url %}
-            <p><a href="{{ url_for('full_book_details', book_id=book._id) }}"><img src="{{book.book_url}}" alt="Book Image"
-                        height="200" width="150"></p></a>
+                <p><a href="{{ url_for('full_book_details', book_id=book._id) }}"><img src="{{book.book_url}}" alt="Book Image"
+                            height="200" width="150"></p></a>
 
             <!-- A default image will be displayed if there isn't an image uploaded -->
             {% else %}
-            <p><a href="{{ url_for('full_book_details', book_id=book._id) }}"><img
-                        src="{{ url_for('static', filename='img/unknown_book.png' )}}" height="200" width="200"
-                        alt="Book Image"></img></a>
-            </p>
+                <p><a href="{{ url_for('full_book_details', book_id=book._id) }}"><img
+                            src="{{ url_for('static', filename='img/unknown_book.png' )}}" height="200" width="200"
+                            alt="Book Image"></img></a>
+                </p>
             {% endif %}
             <hr>
-        </div>
+        </div> <!-- Closes col-sm-12 col-md-4 -->
         {% endfor %}
-    </div>
-</div>
+        </ul>
+    </div> <!-- Closes row -->
+
+    <!-- Pagination -->
+    <ul class="pagination">
+        {% for page_number in page %} 
+            <!-- Displays the current page number -->
+            {% if page_number == current_page %}
+                <li class="active"><a class="pagination">{{ page_number }}</a></li>
+            <!-- Displays the next page number(s) -->
+            {% else %}
+                <li class="waves-effect"><a class="pagination" href="{{ url_for('search_page', current_page=page_number) }}">{{ page_number }}</a></li>
+            {% endif %} 
+        {% endfor %}
+    </ul>
+</div> <!-- Closes container -->
 <br>
 
 {% endblock %}
