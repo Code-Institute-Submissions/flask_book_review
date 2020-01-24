@@ -1,4 +1,5 @@
 import os
+import math
 from flask import Flask, render_template, request, redirect, url_for
 from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
@@ -17,11 +18,11 @@ def home():
     non_fiction = mongo.db.book.find({
         "fact_fiction": "Non-Fiction", 
         "rating_value":  { "$in": ["5", "4"] }
-        }).limit(4)
+        }).limit(3)
     fiction = mongo.db.book.find({
         "fact_fiction": "Fiction", 
         "rating_value": { "$in": ["5", "4"] }
-        }).limit(4)
+        }).limit(3)
     
     return render_template('index.html', non_fiction=non_fiction, fiction=fiction)
 
@@ -57,34 +58,153 @@ def full_book_details(book_id):
 # Loads page for fiction books
 @app.route('/fiction_books')
 def fiction_books():
-    fiction=mongo.db.book.find({"fact_fiction": "Fiction"}).sort("author_name", 1)
+    
+    # Pagination
+    page_limit = 6
+    book_count = mongo.db.book.count({"fact_fiction": "Fiction"})
+    current_page = int(request.args.get('current_page', 1))
+    page = range(1, int(math.ceil(book_count / page_limit))+1)
 
-    return render_template('fiction_books.html', fiction=fiction)
+    # Fiction genres will be displayed 
+    fiction_genres=mongo.db.genre.find({'fiction': 'yes'})
 
+    # Query the database to find fiction books, sort based on author name and apply pagination 
+    fiction=mongo.db.book.find({"fact_fiction": "Fiction"}).sort("author_name", 1).skip((current_page - 1)*page_limit).limit(page_limit)
+  
+    return render_template('fiction_books.html', 
+                            fiction=fiction, 
+                            fiction_genres=fiction_genres,
+                            page=page,
+                            current_page=current_page)
 
-# Loads non fiction books
+# Loads results of fiction books with the specified genre 
+@app.route('/fiction_genre_results')
+def fiction_genre_results():
+
+    # Fiction genres will be displayed 
+    fiction_genres=mongo.db.genre.find({'fiction': 'yes'})
+    genre_name = request.form.get('genre_name')
+
+    # 'genre_name' from form will match books with the same 'genre_name' from the database - displays results 
+    genre_results = mongo.db.book.find({'genre_name': genre_name})
+    
+   
+    return render_template('fiction_genre_results.html',
+                            fiction_genres=fiction_genres,
+                            genre_results=genre_results
+    )
+
+# Function to search fiction books based on genre type 
+@app.route('/fiction_genre_search', methods=['POST'])
+def fiction_genre_search():
+    
+    # Fiction genres 
+    fiction_genres=mongo.db.genre.find({'fiction': 'yes'})
+
+    # Function to find results from genre search 
+    if request.method == 'POST':
+        genre_name = request.form.get('genre_name')
+        genre_results = mongo.db.book.find({'genre_name': genre_name})
+        genre_count = genre_results.count()
+
+    return render_template('fiction_genre_results.html', 
+                            genre_results=genre_results,
+                            fiction_genres=fiction_genres,
+                            genre_count=genre_count)
+    
+
+# Loads non-fiction books
 @app.route('/non_fiction_books')
 def non_fiction_books():
-    non_fiction=mongo.db.book.find({"fact_fiction": "Non-Fiction"}).sort("author_name", 1)
 
-    return render_template('non_fiction_books.html', non_fiction=non_fiction)
+    # Pagination
+    page_limit = 6
+    book_count = mongo.db.book.count({"fact_fiction": "Non-Fiction"})
+    current_page = int(request.args.get('current_page', 1))
+    page = range(1, int(math.ceil(book_count / page_limit)) + 1)
+    
 
+    # Shows all books in the database that are non-fiction, sorted based on author name, and with pagination
+    non_fiction=mongo.db.book.find({"fact_fiction": "Non-Fiction"}).sort("author_name", 1).skip((current_page - 1)*page_limit).limit(page_limit)
+    
+    # Looks for books that aren't fiction genres i.e. non-fiction
+    non_fiction_genres=mongo.db.genre.find({'fiction': 'no'})
 
-# Loads page to search books 
+    
+    return render_template('non_fiction_books.html', 
+                            non_fiction=non_fiction,
+                            non_fiction_genres=non_fiction_genres,
+                            current_page=current_page,
+                            page=page)
+
+# Loads results of non-fiction books with the specified genre 
+@app.route('/non_fiction_genre_results')
+def non_fiction_genre_results():
+
+    # Finds non-fiction genres
+    non_fiction_genres=mongo.db.genre.find({'fiction': 'no'})
+    genre_name = request.form.get('genre_name')
+
+    # Find books that match genre_name from the form to the genre_name from the database 
+    genre_results = mongo.db.book.find({'genre_name': genre_name})
+    
+   
+    return render_template('non_fiction_genre_results.html',
+                            non_fiction_genres=non_fiction_genres,
+                            genre_results=genre_results
+    )
+
+# Function to search non-fiction books based on genre type 
+@app.route('/non_fiction_genre_search', methods=['POST'])
+def non_fiction_genre_search():
+    
+    # Finds genres that are applied to non-fiction books
+    non_fiction_genres=mongo.db.genre.find({'fiction': 'no'})
+
+    if request.method == 'POST':
+        genre_name = request.form.get('genre_name')
+        genre_results = mongo.db.book.find({'genre_name': genre_name})
+        genre_count = genre_results.count()
+
+    return render_template('non_fiction_genre_results.html', 
+                            genre_results=genre_results,
+                            non_fiction_genres=non_fiction_genres,
+                            genre_count=genre_count)
+
+# Landing page to search books and also displays all books in the database
 @app.route('/search_page/')
 def search_page():
-    books = mongo.db.book.find().sort("author_name", 1)
+
+    # Pagination
+    page_limit = 6 
+    book_count = mongo.db.book.count()
+    current_page = int(request.args.get('current_page', 1))
+    page = range(1, int(math.ceil(book_count / page_limit)) +1)
+
+    # Displays all books, sorted based on author name, and applies pagination
+    books = mongo.db.book.find().sort("author_name", 1).skip((current_page - 1)*page_limit).limit(page_limit)
+    
+    # Finds all genre options from the database 
+    all_genre = mongo.db.genre.find()
+
+    # Finds all rating options from the database 
+    ratings = mongo.db.rating.find()
+
 
     return render_template(
         'search_books.html', 
-        all_genre=mongo.db.genre.find(),
-        ratings=mongo.db.rating.find(),
-        books=books)
+        all_genre=all_genre,
+        ratings=ratings,
+        books=books,
+        page=page,
+        current_page=current_page)
+    
 
-
-# Page to search genre 
+# Landing page to search genre 
 @app.route('/search_genre')
 def search_genre():
+
+    # Look for all books from the database, sort based on author name 
     books = mongo.db.book.find().sort("author_name", 1)
     genre_name = request.form.get('genre_name')
     genre_result=mongo.db.book.find({"genre_name": genre_name})
@@ -111,7 +231,7 @@ def search_genre_function():
                             genre_count=genre_count)
 
 
-# Page to search rating
+# Landing page to search rating
 @app.route('/search_rating')
 def search_rating():
     return render_template("search_rating.html",
@@ -156,8 +276,14 @@ def insert_book():
 @app.route('/edit_book/<book_id>')
 def edit_book(book_id):
     books = mongo.db.book.find_one({"_id": ObjectId(book_id)})
+
+    # Finds all genres from the database 
     all_genre = mongo.db.genre.find()
+
+    # Find all rating options 
     rating = mongo.db.rating.find()
+
+    # Find fiction/non-fiction options
     fact_fiction = mongo.db.type.find()
 
     return render_template('edit_book.html', book=books, all_genre=all_genre, rating=rating, fact_fiction=fact_fiction)
@@ -181,7 +307,7 @@ def update_book(book_id):
         'book_website': request.form.get('book_website')
     })
 
-    return redirect(url_for('home'))
+    return redirect(url_for( "full_book_details", book_id=book_id))
 
 # Function to delete a book 
 @app.route('/delete_book/<book_id>')
