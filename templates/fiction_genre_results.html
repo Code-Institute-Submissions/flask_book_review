@@ -25,7 +25,11 @@
         {% endfor %}
     </div>
 </div>
-
+<!-- Button for other books -->
+<div class="container">
+    <a href="{{ url_for('other_fiction_books') }}"><button class="search_button" type="submit" name="other_genre_name"
+            value="Other">Other</button></a>
+</div>
 <br>
 <!-- Results for genre search -->
 {% if genre_results %}
@@ -35,11 +39,13 @@
 
             <!-- Count for results -->
             {% if genre_count == 0 %}
-            <p>No {{genre_name}} Books Found</p>
+                <p>No {{genre_name}} Books Found</p>
+
             {% elif genre_count == 1 %}
-            <p>{{genre_count}} {{genre_name}} Book Found</p>
+                <p>{{genre_count}} {{genre_name}} Book Found</p>
+
             {% else %}
-            <p>{{genre_count}} {{genre_name}} Books Found</p>
+                <p>{{genre_count}} {{genre_name}} Books Found</p>
             {% endif %}
 
         </div>
@@ -50,33 +56,45 @@
 <div class="container">
     <div class="row">
         {% for book in genre_results %}
-        <div class="col-sm-12 col-md-4">
+            <!-- Ignores non-fiction books with the same genre -->
+            {% if book.fact_fiction == 'Non-Fiction' %}
 
-            <!-- Image links to full book details page -->
-            <a href="{{ url_for('full_book_details', book_id=book._id)}}">
-                <p class="title_color"><strong>{{book.book_name|title}}</strong></p>
-            </a>
-
-            <p class="author_color">by {{book.author_name|title}}</p>
-            <p>{{book.rating_value}} <i class="fa fa-star star_rating"></i></p>
-
-            <!-- If there is an image uploaded for the book then it will be displayed -->
-            {% if book.book_url %}
-                <p><a href="{{ url_for('full_book_details', book_id=book._id) }}"><img src="{{book.book_url}}"
-                            alt="Book Image" height="200" width="150"></p></a>
-
-            <!-- A default image will be displayed if there isn't an image uploaded -->
             {% else %}
-                <p><a href="{{ url_for('full_book_details', book_id=book._id) }}"><img
-                            src="{{ url_for('static', filename='img/unknown_book.png' )}}" height="200" width="200"
-                            alt="Book Image"></img></a>
-                </p>
-            {% endif %}
-            <hr>
-        </div> <!-- Close col classes-->
-        {% endfor %}
+                <div class="col-sm-12 col-md-4">
+                
+                    <!-- Image links to full book details page -->
+                    <a href="{{ url_for('full_book_details', book_id=book._id)}}">
+                        <p class="title_color"><strong>{{book.book_name|title}}</strong></p>
+                    </a>
+
+                    <!-- Author name -->
+                    <p class="author_color">by {{book.author_name|title}}</p>
+
+                    <!-- Book rating -->
+                    <p>{{book.rating_value}} <i class="fa fa-star star_rating"></i></p>
+
+                    <!-- If there is an image uploaded for the book then it will be displayed -->
+                    {% if book.book_url %}
+                        <p>
+                            <a href="{{ url_for('full_book_details', book_id=book._id) }}"><img class="img_height_width" src="{{book.book_url}}"
+                                    alt="{{book.book_name}}"></img></a>
+                        </p>
+
+                    <!-- A default image will be displayed if there isn't an image uploaded -->
+                    {% else %}
+                        <p>
+                            <a href="{{ url_for('full_book_details', book_id=book._id) }}"><img
+                                    src="{{ url_for('static', filename='img/unknown_book.png' )}}" height="200" width="200"
+                                    alt="{{book.book_name}}"></img></a>
+                        </p>
+                    {% endif %}
+                    <hr>
+                </div> <!-- Close col classes-->
+
+            {% endif %} 
+        {% endfor %} <!-- End outer 'for' loop -->
     </div> <!-- Close row -->
 </div> <!-- Close container -->
-{% endif %}
+{% endif %} <!-- Close 'if results' jinja -->
 
 {% endblock %}
