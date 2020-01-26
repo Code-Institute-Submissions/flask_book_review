@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block page_title %} <title>Search Books</title> {% endblock %}
+{% block page_title %} <title>Search Genre</title> {% endblock %}
 
 {% block content %}
 <br>
@@ -60,14 +60,14 @@
 
             <!-- If there is an image uploaded for the book then it will be displayed -->
             {% if book.book_url %}
-                <p><a href="{{ url_for('full_book_details', book_id=book._id) }}"><img src="{{book.book_url}}"
-                            alt="Book Image" height="200" width="150"></p></a>
+                <p><a href="{{ url_for('full_book_details', book_id=book._id) }}"><img class="img_height_width" src="{{book.book_url}}"
+                            alt="{{book.book_name}}"></p></a>
 
             <!-- A default image will be displayed if there isn't an image uploaded -->
             {% else %}
                 <p><a href="{{ url_for('full_book_details', book_id=book._id) }}"><img
                             src="{{ url_for('static', filename='img/unknown_book.png' )}}" height="200" width="200"
-                            alt="Book Image"></img></a>
+                            alt="{{book.book_name}}"></img></a>
                 </p>
             {% endif %}
             <hr>
@@ -91,7 +91,7 @@
     </ul>
 </div> <!-- Closes container -->
 
-<br>
+
 <!-- Results for genre search -->
 {% if results %}
 <div class='container'>
@@ -132,14 +132,13 @@
 
             <!-- If there is an image uploaded for the book then it will be displayed -->
             {% if book.book_url %}
-                <p><a href="{{ url_for('full_book_details', book_id=book._id) }}"><img src="{{book.book_url}}" alt="Book Image"
-                            height="200" width="150"></p></a>
+                <p><a href="{{ url_for('full_book_details', book_id=book._id) }}"><img class="img_height_width" src="{{book.book_url}}" alt="{{book.book_name}}"></p></a>
             
             <!-- A default image will be displayed if there isn't an image uploaded -->
             {% else %}
                 <p><a href="{{ url_for('full_book_details', book_id=book._id) }}"><img
                             src="{{ url_for('static', filename='img/unknown_book.png' )}}" height="200" width="200"
-                            alt="Book Image"></img></a>
+                            alt="{{book.book_name}}"></img></a>
                 </p>
             {% endif %}
             <hr>
