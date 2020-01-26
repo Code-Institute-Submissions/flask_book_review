@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block page_title %} <title>Add Books</title> {% endblock %}
+{% block page_title %} <title>Add Book</title> {% endblock %}
 
 {% block content %}
 <br>
@@ -11,10 +11,13 @@
     </div>
 </div>
 <br>
+
 <div class="container half_width_container">
     <form action="{{ url_for('insert_book') }}" method="POST">
-        <!-- allows some books to be deleted whereas others will be permanent -->
+        <!-- Allows some books to be deleted whereas others will be permanent -->
         <input id="delete_book" name="delete_book" type="hidden" value="true">
+
+        <!-- Add book name -->
         <div class="row">
             <div class="form-group col-sm-12">
                 <label for="book_name">Book Title</label>
@@ -22,6 +25,7 @@
             </div>
         </div>
 
+        <!-- Add book author -->
         <div class="row">
             <div class="form-group col-sm-12">
                 <label for="author_name">Book Author</label>
@@ -30,6 +34,7 @@
             </div>
         </div>
 
+        <!-- Add image for book -->
         <div class="row">
             <div class="form-group col-sm-12">
                 <label for="book_url">Image</label>
@@ -37,6 +42,7 @@
             </div>
         </div>
 
+        <!-- Add website link for book if needed -->
         <div class="row">
             <div class="form-group col-sm-12">
                 <label for="book_url">Website Link</label>
@@ -44,18 +50,20 @@
             </div>
         </div>
 
+        <!-- Add genre - dropdown list -->
         <div class="row">
             <div class="form-group col-sm-12">
                 <label for="genre_name">Genre</label>
                 <select class="form-control" id="genre_name" name="genre_name" required="True">
                     <option value="" disabled selected>Choose your Genre</option>
                     {% for genre in book_genre %}
-                        <option value="{{ genre.genre_name }}">{{ genre.genre_name }}</option>
+                    <option value="{{ genre.genre_name }}">{{ genre.genre_name }}</option>
                     {% endfor %}
                 </select>
             </div>
         </div>
 
+        <!-- Add fiction or non-fiction - dropdown list -->
         <div class="row">
             <div class="form-group col-sm-12">
                 <label for="fact_fiction">Fiction/Non-Fiction</label>
@@ -68,6 +76,7 @@
             </div>
         </div>
 
+        <!-- Add rating -->
         <div class="row">
             <div class="form-group col-sm-12">
                 <label for="rating_value">Rating</label>
@@ -80,6 +89,7 @@
             </div>
         </div>
 
+        <!-- Add book description -->
         <div class="row">
             <div class="form-group col-sm-12">
                 <label for="book_info">Book Description</label>
