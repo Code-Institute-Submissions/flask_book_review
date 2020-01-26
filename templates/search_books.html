@@ -25,7 +25,24 @@
     </div>
 </div>
 <br>
+<!-- Total number of books in the database -->
+<div class='container'>
+    <div class='row'>
+        <div class='col-sm-12 col-md-12'>
 
+            {% if book_count == 0 %}
+            <p>0 Books Found</p>
+
+            {% elif book_count == 1 %}
+            <p>{{book_count}} Book Found</p>
+
+            {% else %}
+            <p>{{book_count}} Books</p>
+            {% endif %}
+
+        </div>
+    </div>
+</div>
 <br>
 <!-- Displays all books in the database -->
 <div class="container">
@@ -43,8 +60,7 @@
 
             <!-- If there is an image uploaded for the book then it will be displayed -->
             {% if book.book_url %}
-                <p><a href="{{ url_for('full_book_details', book_id=book._id) }}"><img src="{{book.book_url}}" alt="{{book.book_name}}"
-                            height="210" width="150"></p></a>
+                <p><a href="{{ url_for('full_book_details', book_id=book._id) }}"><img class="img_height_width" src="{{book.book_url}}" alt="{{book.book_name}}"></p></a>
 
             <!-- A default image will be displayed if there isn't an image uploaded -->
             {% else %}
