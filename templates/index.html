@@ -16,17 +16,31 @@
                 {% for book in fiction %}
                     <div class="col-sm-12 col-md-4 flex">
                         
+                        <!-- Book's name with link to be redirected to full details page -->
                         <a href="{{ url_for('full_book_details', book_id=book._id)}}">
                             <p class="title_color"><strong>{{book.book_name|title}}</strong></p>
                         </a>
+
+                        <!-- Author name -->
                         <p class="author_color">by {{book.author_name|title}}</p>
+
+                        <!-- If book image upload is successful, the image will be loaded -->
                         {% if book.book_url %}
-                        <p><a href="{{ url_for('full_book_details', book_id=book._id) }}"><img src="{{book.book_url}}" alt="{{book.book_name}}" height="210" width="150"></p></a>
+                            <p>
+                                <a href="{{ url_for('full_book_details', book_id=book._id) }}"><img class="img_height_width" src="{{book.book_url}}" alt="{{book.book_name}}"></img></a>
+                            </p>
+
+                        <!-- If the image has not been uploaded correctly a default image will be displayed instead -->
                         {% else %}
-                        <p><a href="{{ url_for('full_book_details', book_id=book._id) }}"><img src="{{ url_for('static', filename='img/unknown_book.png' )}}" height="200" width="200" alt="{{book.book_name}}"></img></a>
-                        </p>
+                            <p>
+                                <a href="{{ url_for('full_book_details', book_id=book._id) }}"><img src="{{ url_for('static', filename='img/unknown_book.png' )}}" height="200" width="200" alt="{{book.book_name}}"></img></a>
+                            </p>
                         {% endif %}
+
+                        <!-- Book's rating -->
                         <p>{{book.rating_value}} <i class="fa fa-star star_rating"></i></p>
+
+                        <!-- Book's genre -->
                         <p>{{book.genre_name}}</p> 
     
                     </div> <!-- closing col-sm-12 -->
@@ -49,18 +63,30 @@
                 <div class="row flex_container center-align">
                     {% for book in non_fiction %}
                     <div class="col-sm-12 col-md-4 flex">
-            
+                        
+                        <!-- Book's name with link to be redirected to full details page -->
                         <a href="{{ url_for('full_book_details', book_id=book._id)}}">
                             <p class="title_color"><strong>{{book.book_name|title}}</strong></p>
                         </a>
+
+                        <!-- Author name -->
                         <p class="author_color">by {{book.author_name|title}}</p>
+
+                        <!-- If book image upload is successful, the image will be loaded -->
                         {% if book.book_url %}
-                        <p><a href="{{ url_for('full_book_details', book_id=book._id) }}"><img src="{{book.book_url}}" alt="{{book.book_name}}" height="210" width="150"></p></a>
+                            <p>
+                                <a href="{{ url_for('full_book_details', book_id=book._id) }}"><img class="img_height_width" src="{{book.book_url}}" alt="{{book.book_name}}"></a>
+                            </p>
                         {% else %}
-                        <p><a href="{{ url_for('full_book_details', book_id=book._id) }}"><img src="{{ url_for('static', filename='img/unknown_book.png' )}}" height="200" width="200" alt="{{book.book_name}}"></img></a>
-                        </p>
+                            <p>
+                                <a href="{{ url_for('full_book_details', book_id=book._id) }}"><img src="{{ url_for('static', filename='img/unknown_book.png' )}}" height="200" width="200" alt="{{book.book_name}}"></img></a>
+                            </p>
                         {% endif %}
+
+                        <!-- Book rating -->
                         <p>{{book.rating_value}} <i class="fa fa-star star_rating"></i></p>
+
+                        <!-- Book genre -->
                         <p>{{book.genre_name}}</p>
             
                     </div> <!-- closing col-sm-12 -->
