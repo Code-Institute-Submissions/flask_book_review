@@ -24,8 +24,33 @@
         {% endfor %}
     </div>
 </div>
+
+<!-- Link to 'other' genre books -->
+<div class="container">
+    <a href="{{ url_for('other_books') }}"><button class="search_button" type="submit" name="other_genre_name" value="Other">Other</button></a>
+</div>
 <br>
 
+<!-- Total number of non-fiction books -->
+<div class='container'>
+    <div class='row'>
+        <div class='col-sm-12 col-md-12'>
+
+            <!-- Count for results -->
+            {% if book_count == 0 %}
+                <p>No Non-Fiction Books Found</p>
+
+            {% elif book_count == 1 %}
+                <p>{{book_count}} Non-Fiction Book Found</p>
+                
+            {% else %}
+                <p>{{book_count}} Non-Fiction Books Found</p>
+            {% endif %}
+
+        </div>
+    </div>
+</div>
+<br>
 <!-- Displays all non-fiction books -->
 <div class="container">
     <div class="row">
@@ -43,16 +68,18 @@
             <!-- The book's image will be displayed if there is one -->
             {% if book.book_url %}
                 <p>
-                    <a href="{{ url_for('full_book_details', book_id=book._id) }}"><img src="{{book.book_url}}" alt="Book Image"
-                        height="200" width="150"></a>
+                    <a href="{{ url_for('full_book_details', book_id=book._id) }}">
+                        <img class="img_height_width" src="{{book.book_url}}" alt="{{book.book_name}}"><img>
+                    </a>
                 </p>
-            
+    
             <!-- If there isn't an image uploaded, then a default image will be displayed instead -->
             {% else %}
                 <p>
-                    <a href="{{ url_for('full_book_details', book_id=book._id) }}"><img
-                        src="{{ url_for('static', filename='img/unknown_book.png' )}}" height="200" width="200"
-                        alt="Book Image"></img></a>
+                    <a href="{{ url_for('full_book_details', book_id=book._id) }}">
+                        <img src="{{ url_for('static', filename='img/unknown_book.png' )}}" height="200" width="200"
+                            alt="{{book.book_name}}"></img>
+                    </a>
                 </p>
             {% endif %}
             <hr>
