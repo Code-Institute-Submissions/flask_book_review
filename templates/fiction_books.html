@@ -24,6 +24,32 @@
         {% endfor %}
     </div>
 </div>
+<!-- Button for other books -->
+<div class="container">
+    <a href="{{ url_for('other_fiction_books') }}"><button class="search_button" type="submit" name="other_genre_name"
+            value="Other">Other</button></a>
+</div>
+<br>
+
+<!-- Total number of fiction books -->
+<div class='container'>
+    <div class='row'>
+        <div class='col-sm-12 col-md-12'>
+
+            <!-- Count for results -->
+            {% if book_count == 0 %}
+                <p>No Fiction Books Found</p>
+
+            {% elif book_count == 1 %}
+                <p>{{book_count}} Fiction Book Found</p>
+                
+            {% else %}
+                <p>{{book_count}} Fiction Books Found</p>
+            {% endif %}
+
+        </div>
+    </div>
+</div>
 <br>
 
 <!-- All fiction books -->
@@ -45,8 +71,7 @@
 
             <!-- If there is an image uploaded for the book it will be displayed -->
             {% if book.book_url %}
-                <p><a href="{{ url_for('full_book_details', book_id=book._id) }}"><img src="{{book.book_url}}" alt="{{book.book_name}}"
-                            height="210" width="150"></p></a>
+                <p><a href="{{ url_for('full_book_details', book_id=book._id) }}"><img class="img_height_width" src="{{book.book_url}}" alt="{{book.book_name}}"></p></a>
             
             <!-- If there isn't a link a default image will be shown instead -->
             {% else %}
