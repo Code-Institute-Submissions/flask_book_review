@@ -74,4 +74,7 @@ a.pagination {
     font-size: 20px;
 }
 
-
+.img_height_width {
+    height: 210px;
+    width: 150px;
+}
