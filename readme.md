@@ -1,10 +1,14 @@
 # Sara Akhtar's Flask Book Catalogue Project
 
+Heroku live website link:
+
+https://sara-book-project.herokuapp.com
+
 ## Overview
 
 This Flask project is a responsive website that utilizes mongoDB. The CRUD method has been implemented, therefore users have the ability to create, read, update and delete books from the database. 
 
-I experimented with some of the different features and capabilities of mongoDB, therefore the home page displays the top five rated books for both fiction and non-fiction books.
+I experimented with some of the different features and capabilities of mongoDB, therefore the home page displays the top three rated books for both fiction and non-fiction books.
 
 Currently there aren’t any username capabilities for this website. In order to ensure the database couldn’t be left empty, I created a certain number of books that couldn’t be deleted. I achieved this by creating a hidden value and an automatic input for the books I didn’t want to delete, and for new books created.  
 
@@ -24,36 +28,52 @@ Currently images aren’t stored locally. Images are displayed based on the url 
 For the sake of this project, this method for storing images has been kept, however in the future I would like to incorporate a system that would allow images to be stored locally. 
 
 ## UX and UI
+My goals: 
+    - Build a website that was simple and easy to manoeuvre through and understand,
+    - Allow users to easily reach their destination,
+    - Create a mobile first website that was responsive,
+    - Have an appealing aesthetic.
 
-I wanted to build a website that was simple and easy to manoeuvre through. I used Balsamiq to create wireframes in order to achieve this goal. 
-
-I also created a mobile first website that was responsive in order to have a successful UX and UI.  
+How was it achieved? 
+    - I used Balsamiq to create wireframes in order to achieve this goal. 
+    - Balsamiq allowed me to see how easy it was to see where everything was located, but also whether it was appealing for the user. 
+    - Bootstrap column and row features allowed me to incorporate a mobile first design.
+ 
 
 ## Features
 
 * The CRUD process has been established in this project, allowing the user to create, read, update and delete books
     - Editing a book will allow it to be deleted if it has the 'delete_book = true' hidden value. 
-* Search capability 
-    - Users can search based on ratings and genre.
+* Search filtering capability 
+    - Users can filter books based on ratings and genre.
     - Users can also see which fiction and non-fiction books are in the database.
 * Books are sorted;
     - Some based on author’s name, with others based on rating, depending on which page a user is on. 
 * Used jQuery to add hover elements and add other aesthetic qualities.
-* Users can upload an image 
-    - If the image hasn’t uploaded correctly they are asked if they would like to add a link to a website for the image. On the website I have used the Waterstones website as an example. 
+* Users can upload an image or website link:
+    - If the image upload was successful then there won’t be any mention of a website link. If the image hasn’t uploaded correctly then the user is asked if they would like to add a link to a website for the image instead. On the website I have used the Waterstones website as an example for the Sherlock Holmes book. 
     - If there is already a link to a website uploaded, then the message displayed will change and instead provide them with a link to this website.
+    - As is mentioned below in the features left to implement section, an alternative method to image uploading is something that I would like to feature in order to avoid such issues.
 * Interaction with users 
     - When a user clicks on a book and has its full details displayed, if applicable, books with a similar genre will also be presented at the bottom of the page.
+* Used pagination for certain pages so there weren’t too many books displayed on one page.
+* I developed a genre category for books classified as ‘other’: 
+    - This was identified as a need during the testing process. 
+    - If users add a book with a genre that isn’t recognised as a pre-selected genre type for a fiction or non-fiction book then it will be categorised with a genre of ‘other’. 
+        - i.e. A non-fiction book with a fiction genre or a fiction book with a non-fiction genre. 
 
 ### Features left to implement 
 
+* Breadcrumb navigation:
+    - So I can have more control over redirects i.e. after deleting a book I would like the user to be redirected to the page they previously were on. 
 * I want to learn more about added security features for the backend and different types of validation that can be used in this context.
 * I would like to experiment with Javascript to see how it can further be used to enhance the usability of a website.
 * Develop username capabilities.
 * Allow users to comment on books, and leave their own reviews.
-* Experiment with other ways users can add images in order to make it easier, and not having to rely on the correct image url being uploaded.
+* Create a better method for image storage:
+    - Experiment with other ways users can add images in order to make it easier and accurate without having to rely on the correct image url being uploaded. This will also prevent broken images on the website.
+    - Develop a method to store images locally, therefore gaining control.
 * I would like to experiment with AJAX, such as applying functions without having the page reload. 
-* Develop a method to store images locally, therefore gaining control. 
 
 ## Methods used
 
@@ -65,27 +85,36 @@ I also created a mobile first website that was responsive in order to have a suc
 6. Font Awesome - used for icons
 
 ## Testing techniques 
-
-When testing the code for this website http://jshint.com, manual testing and Google’s responsive web tester were utilized. 
-
+  
 ### Manual testing
-
+> Front-end 
 * https://chrome.google.com/webstore/detail/responsive-web-design-tes/bdpelkpfhjfiacjeobkhlkkgaphbobea.
     - This chrome plug in was used when testing HTML and CSS to assess the responsiveness of the website on different screen sizes. 
-* I also tested the website on different browsers.
-* I manually tested all functions 
-    - Includes testing forms by adding and editing books. I tested the delete function and ensured the confirmation message before deletion was working correctly. 
-    - All search functions were tested by manually searching books and ensuring the correct ones were identified. 
+* I also tested the website on different browsers:
+    - Safari
+    - Chrome
+    - Firefox
 * Ensured books were displayed as intended:
     - Correctly separating fiction and non-fiction books
     - Top 5 rated books were displayed on the home page, and only those books with a 4 or 5 star rating.
 * Tested images:
-    - Images were displayed correctly, especially when an image wasn't uploaded correctly.  
- 
+    - Images were displayed correctly, especially when an image wasn't uploaded correctly. 
+* W3C code validator was used to check the HTML portions of code.
+
+> Back-end
+* I tried entering data that was outside what was expected to try and break the code, which helped identify what safeguards needed to be in place: 
+    - This helped identify the need for having ‘other’ as a genre option, as when I entered books with genre types that didn’t match the fiction or non-fiction genre pre-sets, those books would not be able to be filtered.
+* I manually tested all functions 
+    - Includes testing forms by adding and editing books. I tested the delete function and ensured the confirmation message before deletion was working correctly. 
+    - All search/filter functions were tested by manually filtering books and ensuring the correct ones were identified.  
+* To test JavaScript code: 
+    - http://jshint.com
+
 
 ### Form validation 
-
-I wanted to confirm that all the forms were working as intended and had been validated. In order to do so I performed manual tests, which included attempting to submit the forms without any data present. This was to ensure that an error message was displayed which prompted the user to first input the required data. 
+I wanted to confirm that all the forms were working as intended and had been validated. In order to do so I performed manual tests. These included:
+    - Attempting to submit the add book form without any data present. This was to ensure that an error message was successfully displayed prompting the user to first input the required data. 
+    - Editing a book and submitting the form without the necessary input details; again there was an error above the input field requesting the user enter the information.  
 
 ## Deployment
 
