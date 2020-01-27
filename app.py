@@ -54,6 +54,7 @@ def full_book_details(book_id):
                             similar_genre_books=similar_genre_books, 
                             book_num=book_num)
 
+# All code for fiction related titles 
 
 # Loads page for fiction books
 @app.route('/fiction_books')
@@ -75,7 +76,8 @@ def fiction_books():
                             fiction=fiction, 
                             fiction_genres=fiction_genres,
                             page=page,
-                            current_page=current_page)
+                            current_page=current_page,
+                            book_count=book_count)
 
 # Loads results of fiction books with the specified genre 
 @app.route('/fiction_genre_results')
@@ -104,18 +106,54 @@ def fiction_genre_search():
     # Function to find results from genre search 
     if request.method == 'POST':
         genre_name = request.form.get('genre_name')
-        genre_results = mongo.db.book.find({'genre_name': genre_name})
+        genre_results = mongo.db.book.find({
+            'genre_name': genre_name,
+            "fact_fiction": "Fiction", 
+            })
         genre_count = genre_results.count()
 
     return render_template('fiction_genre_results.html', 
                             genre_results=genre_results,
                             fiction_genres=fiction_genres,
-                            genre_count=genre_count)
+                            genre_count=genre_count,
+                            genre_name=genre_name)
+
+# Books that are fiction but have a non-fiction genre 
+@app.route('/other_fiction_books')
+def other_fiction_books():
+
+    # Finds genres that are applied to fiction books
+    fiction_genres=mongo.db.genre.find({'fiction': 'yes'})
+
+    # List to hold books that are fiction but have a non-fiction genre 
+    other_fiction_books = []
     
+    other = mongo.db.book.find({
+        
+        "fact_fiction": "Fiction", 
+        "genre_name": { "$in": ["Education", "Cooking", "Travel", "Biography"] }
+        })
+    
+    other_fiction_books_count = other.count()
+    
+    for item in other:
+        other_fiction_books.append(item)
+        
+    return render_template('other_fiction_books.html',
+                            other_fiction_books=other_fiction_books,
+                            fiction_genres=fiction_genres,
+                            other_fiction_books_count=other_fiction_books_count)
+    
+
+
+# All code for non-fiction titles 
 
 # Loads non-fiction books
 @app.route('/non_fiction_books')
 def non_fiction_books():
+
+    # Empty list to hold non-fiction books with a fiction genre 
+    other_books = []
 
     # Pagination
     page_limit = 6
@@ -127,15 +165,30 @@ def non_fiction_books():
     # Shows all books in the database that are non-fiction, sorted based on author name, and with pagination
     non_fiction=mongo.db.book.find({"fact_fiction": "Non-Fiction"}).sort("author_name", 1).skip((current_page - 1)*page_limit).limit(page_limit)
     
+    # Logic that looks for books that will be classified as 'other':
+    # This will be books that are non-fiction but have been given a fiction genre 
+    other = mongo.db.book.find({
+        
+        "fact_fiction": "Non-Fiction", 
+        "genre_name": { "$in": ["Horror", "Fantasy", "Thriller", "Crime", "Adventure"] }
+        })
+
+
     # Looks for books that aren't fiction genres i.e. non-fiction
     non_fiction_genres=mongo.db.genre.find({'fiction': 'no'})
 
+    # Will add books that are classified as 'other' genre to the other_books list
+    for item in other:
+        other_books.append(item)
     
     return render_template('non_fiction_books.html', 
                             non_fiction=non_fiction,
                             non_fiction_genres=non_fiction_genres,
                             current_page=current_page,
-                            page=page)
+                            page=page,
+                            other=other,
+                            other_books=other_books,
+                            book_count=book_count)
 
 # Loads results of non-fiction books with the specified genre 
 @app.route('/non_fiction_genre_results')
@@ -161,15 +214,65 @@ def non_fiction_genre_search():
     # Finds genres that are applied to non-fiction books
     non_fiction_genres=mongo.db.genre.find({'fiction': 'no'})
 
+    # List that will hold the books that have 'other' genre 
+    other_books = []
+    
+    # Will look for non-fiction books that have been given a fiction genre 
+    other = mongo.db.book.find({
+        
+        "fact_fiction": "Non-Fiction", 
+        "genre_name": { "$in": ["Horror", "Fantasy", "Thriller", "Crime", "Adventure"] }
+        })
+
+    # Adds the non-fiction books with a fiction genre to the other_books list
+    for item in other:
+        other_books.append(item)
+    
+
     if request.method == 'POST':
         genre_name = request.form.get('genre_name')
-        genre_results = mongo.db.book.find({'genre_name': genre_name})
+        genre_results = mongo.db.book.find({
+            'genre_name': genre_name,
+            'fact_fiction': 'Non-Fiction'
+            })
         genre_count = genre_results.count()
 
     return render_template('non_fiction_genre_results.html', 
                             genre_results=genre_results,
                             non_fiction_genres=non_fiction_genres,
-                            genre_count=genre_count)
+                            genre_count=genre_count,
+                            other_books=other_books,
+                            genre_name=genre_name
+                            )
+
+# Loads 'other' genre non-fiction books
+@app.route('/other_books')
+def other_books():
+
+    # Finds genres that are applied to non-fiction books
+    non_fiction_genres=mongo.db.genre.find({'fiction': 'no'})
+
+    # List to hold books that have a fiction genre 
+    other_books = []
+    
+    other = mongo.db.book.find({
+        
+        "fact_fiction": "Non-Fiction", 
+        "genre_name": { "$in": ["Horror", "Fantasy", "Thriller", "Crime", "Adventure"] }
+        })
+    
+    other_books_count = other.count()
+    
+    for item in other:
+        other_books.append(item)
+
+    return render_template('other_books.html',
+                            other_books=other_books,
+                            non_fiction_genres=non_fiction_genres,
+                            other_books_count=other_books_count)
+
+
+# Functions to search all books in the database 
 
 # Landing page to search books and also displays all books in the database
 @app.route('/search_page/')
@@ -191,13 +294,13 @@ def search_page():
     ratings = mongo.db.rating.find()
 
 
-    return render_template(
-        'search_books.html', 
-        all_genre=all_genre,
-        ratings=ratings,
-        books=books,
-        page=page,
-        current_page=current_page)
+    return render_template('search_books.html', 
+                            all_genre=all_genre,
+                            ratings=ratings,
+                            books=books,
+                            page=page,
+                            current_page=current_page,
+                            book_count=book_count)
     
 
 # Landing page to search genre 
