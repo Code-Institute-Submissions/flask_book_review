@@ -44,6 +44,7 @@ How was it achieved?
 
 * The CRUD process has been established in this project, allowing the user to create, read, update and delete books
     - Editing a book will allow it to be deleted if it has the 'delete_book = true' hidden value. 
+    - When deleting a book, an alert is sent asking the user to confirm they would like to delete it. 
 * Search filtering capability 
     - Users can filter books based on ratings and genre.
     - Users can also see which fiction and non-fiction books are in the database.
@@ -112,7 +113,7 @@ How was it achieved?
 
 
 ### Form validation 
-I wanted to confirm that all the forms were working as intended and had been validated. In order to do so I performed manual tests. These included:
+* I wanted to confirm that all the forms were working as intended and had been validated. In order to do so I performed manual tests. These included:
     - Attempting to submit the add book form without any data present. This was to ensure that an error message was successfully displayed prompting the user to first input the required data. 
     - Editing a book and submitting the form without the necessary input details; again there was an error above the input field requesting the user enter the information.  
 
@@ -138,15 +139,30 @@ https://sara-book-project.herokuapp.com
     ```
     - You will then be given instructions to follow in your command line.
 
+### Loading my Heroku app on your local machine 
+
+#### Github method 
+1. Download the project to be used on your IDE.
+2. Download the packages and requirements from the requirements.txt file:
+    ```sh
+        pip3 install -r requirements.txt 
+    ```
+3. Run the project:
+    ```
+        python3 -m flask run
+    ```
+
 ## Credits
 
 ### Media
-
 * The images used for this project have been obtained from Google and Amazon.
 * Waterstones was used as an example when adding a website link for a book.
 
-
 ### Acknowledgements 
-
+* Assistance from mentor: Dick Vlaanderen 
+* Online tutorial from Pretty printed for pagination 
+* Tutorials from CodingEntrepreneurs:  
+    - Introduction to a confirm alert window:  
+        - I adapted this to work for my project whereby users are sent a confirm alert. 
 
 **This is for educational purposes**
