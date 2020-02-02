@@ -6,23 +6,30 @@
 <div class="container">
     <div class="row">
         <div class="col-sm-12 col-md-6">
+
             <!-- Specific book details -->
             <h2>{{book.book_name|title}}</h2>
             <p>{{book.author_name|title}}</p>
             <p>{{book.rating_value}} <i class="fa fa-star star_rating"></i></p>
             <br>
             <h5>Brief Overview</h5>
-            <p>{{book.book_info|capitalize}}</p>
+
+            <!-- Book description - has been altered so it will capitalize first letter, but other letters within 
+            the description can still be capitalized. Can be seen in app.py -->
+            <p>{{info}}</p>
+
         </div>
         
         <div class="col-sm-12 col-md-6">
             <!-- If book image upload is successful, the image will be loaded -->
             {% if book.book_url %}
-                <img src="{{book.book_url}}" height="250" width="200" alt="Book Image"></img>
+                <img src="{{book.book_url}}" height="260" width="190" alt="{{book.book_name}}"></img>
             
-            <!-- if the image has not been uploaded correctly a default image will be displayed -->
+            <!-- If the image has not been uploaded correctly a default image will be displayed, and a message
+            is displayed asking the user if they want to upload a website link for the image instead -->
             {% else %} 
-                <p><img src="{{ url_for('static', filename='img/unknown_book.png' )}}" height="250" width="250" alt="Book Image"></img></p>
+                <!-- Default image -->
+                <p><img src="{{ url_for('static', filename='img/unknown_book.png' )}}" height="250" width="250" alt="{{book.book_name}}"></img></p>
                 
                 <!-- If there is a website link already uploaded for a book, only a link to the website will be displayed -->
                 {% if book.book_website %}
@@ -37,6 +44,7 @@
                 
             {% endif %}
         </div> <!-- Close col classes -->
+
     </div> <!-- Close row -->
 </div> <!-- Close container -->
 <br>
@@ -78,7 +86,7 @@
 <!-- Logic to query the database to see if there are any books with the same genre as the one on the page -->
 <div class="container">
     <div class="row">
-
+        <!-- Finds all books in the database -->
         {% for all in all_books %}
 
             <!-- Check whether there are any books in the database with the same genre as the one on this page -->
@@ -91,7 +99,7 @@
                     {% else  %}
                     
                         <div class="col-sm-12 col-md-4">  
-                            <!-- Book's name and redirect link to it's full details page -->
+                            <!-- Book's name and redirect link to its full details page -->
                             <a href="{{ url_for('full_book_details', book_id=all._id)}}">
                                 <h5 class="title_color">{{all.book_name|title}}</h5>
                             </a>
@@ -104,24 +112,27 @@
                             
                             <!-- Check if there is an image uploaded for the book, and display it -->
                             {% if all.book_url %}
-                                <p><a href="{{ url_for('full_book_details', book_id=all._id) }}"><img src="{{all.book_url}}" alt="Book Image"
-                                            height="200" width="150"></p></a>
+                                <p>
+                                    <a href="{{ url_for('full_book_details', book_id=all._id) }}"><img class="img_height_width" src="{{all.book_url}}" alt="{{book.book_name}}"></a>
+                                </p>
                             
                             <!-- If there isn't an image, then a default one will be shown -->
                             {% else %}
-                                <p><a href="{{ url_for('full_book_details', book_id=all._id) }}"><img
+                                <p>
+                                    <a href="{{ url_for('full_book_details', book_id=all._id) }}"><img
                                             src="{{ url_for('static', filename='img/unknown_book.png' )}}" height="200" width="200"
-                                            alt="Book Image"></img></a>
+                                            alt="{{book.book_name}}"></img></a>
                                 </p>
                             {% endif %} <!-- Closing if statement for images -->
-                        </div>
+                        </div> <!-- Closing col class -->
+
                     {% endif %} <!-- closing 'all.book_name == book.book_name' -->
             {% endif %} <!-- closing 'all.genre_name == book.genre_name' -->
         {% endfor %} <!-- closing 'for all in all_books'  -->
                 
     </div> <!-- Closing row -->  
 </div> <!-- Closing container -->
-
+<br>
 
 <!-- A different message is displayed if there aren't any similar books -->
 
