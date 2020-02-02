@@ -66,9 +66,9 @@
         <!-- Add fiction or non-fiction - dropdown list -->
         <div class="row">
             <div class="form-group col-sm-12">
-                <label for="fact_fiction">Fiction/Non-Fiction</label>
+                <label for="fact_fiction">Non-Fiction/Fiction</label>
                 <select class="form-control" id="fact_fiction" name="fact_fiction" required="True">
-                    <option value="" disabled selected>Fact or Fiction</option>
+                    <option value="" disabled selected>Non-Fiction or Fiction</option>
                     {% for fiction_non in fiction_non %}
                     <option value="{{ fiction_non.fact_fiction }}">{{ fiction_non.fact_fiction }}</option>
                     {% endfor %}
