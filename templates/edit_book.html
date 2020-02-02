@@ -12,7 +12,11 @@
 <br>
 <div class="container half_width_container">
     <form action="{{ url_for('update_book', book_id=book._id) }}" method="POST" class="col-sm-12">
+        
+        <!-- Allows some books to be deleted whereas others will be permanent -->
         <input id="delete_book" name="delete_book" type="hidden" value="{{book.delete_book}}">
+        
+        <!-- Update book name -->
         <div class="row">
             <div class="form-group col-sm-12">
                 <label for="book_name">Book Title</label>
@@ -20,6 +24,7 @@
             </div>
         </div>
 
+        <!-- Update author -->
         <div class="row">
             <div class="form-group col-sm-12">
                 <label for="author_name">Author</label>
@@ -27,6 +32,7 @@
             </div>
         </div>
 
+        <!-- Update book image -->
         <div class="row">
             <div class="form-group col-sm-12">
                 <label for="book_url">Image</label>
@@ -34,6 +40,7 @@
             </div>
         </div>
 
+        <!-- Update website link -->
         <div class="row">
             <div class="form-group col-sm-12">
                 <label for="book_website">Website Link</label>
@@ -42,6 +49,7 @@
             </div>
         </div>
 
+        <!-- Update genre -->
         <div class="row">
             <div class="form-group col-sm-12">
                 <label for="genre_name">Genre</label>
@@ -58,11 +66,12 @@
             </div>
         </div>
 
+        <!-- Update fiction/non-fiction status -->
         <div class="row">
             <div class="form-group col-sm-12">
-                <label for="fact_fiction">Fiction/Non-Fiction</label>
+                <label for="fact_fiction">Non-Fiction/Fiction</label>
                 <select class="form-control" id="fact_fiction" name="fact_fiction">
-                    <option value="" disabled selected>Fact or Fiction</option>
+                    <option value="" disabled selected>Non-Fiction or Fiction</option>
                     {% for type in fact_fiction %}
                         {% if type.fact_fiction == book.fact_fiction %}
                             <option value="{{ type.fact_fiction }}" selected >{{ type.fact_fiction }}</option>
@@ -74,6 +83,7 @@
             </div>
         </div>
 
+        <!-- Update book rating -->
         <div class="row">
             <div class="form-group col-sm-12">
                 <label for="rating_value">Rating</label>
@@ -90,18 +100,19 @@
             </div>
         </div>
 
+        <!-- Update book description -->
         <div class="row">
             <div class="form-group col-sm-12">
                 <label for="book_info">Book Description</label>
-                <textarea class="form-control" id="book_info" name="book_info" rows="3">{{book.book_info|capitalize}}</textarea>
+                {% for info in info %}
+                    <textarea class="form-control" id="book_info" name="book_info" rows="3">{{info}}</textarea>
+                {% endfor %}
             </div>
         </div>
 
         <div class="row">
             <button class="btn btn-primary" type="submit">Update Book</button>
         </div>
-
-        
 
     </form>
 </div> <!-- Closing form container class -->
