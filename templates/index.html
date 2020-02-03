@@ -43,12 +43,11 @@
                         <!-- Book's genre -->
                         <p>{{book.genre_name}}</p> 
     
-                    </div> <!-- closing col-sm-12 -->
+                    </div> <!-- Closing col-sm-12 col-md-4 flex -->
                 {% else %}
-                <p class="margin-top">Add some 5 or 4 star rated books!</p>
+                    <p class="margin-top">Add some 5 or 4 star rated books!</p>
                 {% endfor %}
             </div> <!-- closing row -->
-            
             
             <p><a class="btn btn-lg btn-success" href="{{ url_for ('fiction_books') }}" role="button">All Fiction Titles</a></p>
         </div> <!-- closing container -->
@@ -57,11 +56,10 @@
     <!-- Non-fiction jumbotron -->
     <div class="jumbotron page" id="page2">
         <h1 class="display-3">Top Non-Fiction Titles</h1>
-        
-            <div class="container">
-                <br>
-                <div class="row flex_container center-align">
-                    {% for book in non_fiction %}
+        <div class="container">
+            <br>
+            <div class="row flex_container center-align">
+                {% for book in non_fiction %}
                     <div class="col-sm-12 col-md-4 flex">
                         
                         <!-- Book's name with link to be redirected to full details page -->
@@ -77,6 +75,8 @@
                             <p>
                                 <a href="{{ url_for('full_book_details', book_id=book._id) }}"><img class="img_height_width" src="{{book.book_url}}" alt="{{book.book_name}}"></a>
                             </p>
+
+                        <!-- If there isn't an image uploaded for a book, then a default image will be displayed -->
                         {% else %}
                             <p>
                                 <a href="{{ url_for('full_book_details', book_id=book._id) }}"><img src="{{ url_for('static', filename='img/unknown_book.png' )}}" height="200" width="200" alt="{{book.book_name}}"></img></a>
@@ -89,15 +89,16 @@
                         <!-- Book genre -->
                         <p>{{book.genre_name}}</p>
             
-                    </div> <!-- closing col-sm-12 -->
-                    {% else %}
+                    </div> <!-- Closing col-sm-12 col-md-4 flex -->
+                {% else %}
                     <p class="margin-top">Add some 5 or 4 star rated books!</p>
-                    {% endfor %}
-                </div> <!-- closing row -->
-            </div> <!-- closing container -->
+                {% endfor %}
+            </div> <!-- closing row -->
+
+            <p><a class="btn btn-lg btn-success" href="{{ url_for ('non_fiction_books') }}" role="button">All Non-Fiction Titles</a></p>
+        </div> <!-- closing container -->
         
-        <p><a class="btn btn-lg btn-success" href="{{ url_for ('non_fiction_books') }}" role="button">All Non-Fiction Titles</a></p>
-    </div>
+    </div> <!-- Closing jumbotron class div -->
     
     <ul id="pagination-demo" class="pagination-lg pull-right"></ul>
 </div> <!-- closing container for both boxes-->
