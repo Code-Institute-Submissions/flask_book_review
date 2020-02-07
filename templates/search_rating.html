@@ -17,32 +17,81 @@
 <div class="container">
     <div class="row">
         <div class="col-sm-12 col-md-2">
-            <p><a class="search_heading custom_a" href="{{ url_for('search_genre') }}">Filter by genre</a></p>
+            <p><a class="custom_a" href="{{ url_for('search_genre') }}">Filter by genre</a></p>
         </div>
         <div class="col-sm-12 col-md-2">
-            <p><a class="search_heading custom_a" href="{{ url_for('search_rating') }}">Filter by ratings</a></p>
+            <p class="active_page"><a class="custom_a" href="{{ url_for('search_rating') }}">Filter by ratings</a></p>
+            <!-- Added hr to put line under active page -->
+            <hr>
         </div>
-    </div> <!-- closing row -->
+    </div> <!-- Closing row -->
     <br>
-</div> <!-- closing container -->
+</div> <!-- Closing container -->
 
-<br>
-<!-- Buttons to allow user to search based on ratings -->
+<!-- Buttons to allow user to filter based on ratings -->
 <div class="container">
     <div class="row">
         {% for rating in ratings %}
-        <form action="{{ url_for('search_rating_function') }}" method="POST">
+            <form action="{{ url_for('search_rating_function') }}" method="POST">
 
-            <!-- Displays the different ratings available as buttons -->
-            <div class="col-sm-12">
-                <button class="search_button" type="submit" name="rating_value" value="{{rating.rating_value}}">{{rating.rating_value}} <i class="fa fa-star star_rating"></i></button>
-            </div>
+                <!-- Displays the different ratings available as buttons -->
+                <div class="col-sm-12">
+                    <button class="search_button" type="submit" name="rating_value" value="{{rating.rating_value}}">{{rating.rating_value}} <i class="fa fa-star star_rating"></i></button>
+                </div>
 
-        </form>
+            </form>
         {% endfor %}
     </div>
 </div>
 <br>
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12 col-md-12">
+            <h4>Top Rated</h4>
+        </div>
+    </div>
+</div>
+<br>
+
+<!-- Displays all books in the database -->
+<div class="container">
+    <div class="row">
+        {% for book in books %}
+
+            <div class="col-sm-12 col-md-4">
+                <!-- Book's name along with redirect link to book's full details -->
+                <a href="{{ url_for('full_book_details', book_id=book._id)}}">
+                    <h5 class="ellipses title_color">{{book.book_name|title}}</h5>
+                </a>
+
+                <!-- Author name -->
+                <p class="ellipses author_color">by {{book.author_name|title}}</p>
+
+                <!-- Rating value -->
+                <p>{{book.rating_value}} <i class="fa fa-star star_rating"></i></p>
+
+                <!-- If there is an image uploaded for the book then it will be displayed, which also links to the full details page -->
+                {% if book.book_url %}
+                    <p>
+                        <a href="{{ url_for('full_book_details', book_id=book._id) }}"><img class="img_height_width"
+                                src="{{book.book_url}}" alt="{{book.book_name}}"></img></a>
+                    </p>
+
+                <!-- A default image will be displayed if there isn't an image uploaded -->
+                {% else %}
+                    <p>
+                        <a href="{{ url_for('full_book_details', book_id=book._id) }}"><img
+                                src="{{ url_for('static', filename='img/unknown_book.png' )}}" height="200" width="200"
+                                alt="{{book.book_name}}"></img></a>
+                    </p>
+                {% endif %}
+                <hr>
+            </div> <!-- Closes col-sm-12 col-md-4 -->
+            
+        {% endfor %}
+    </div> <!-- Closes row -->
+</div> <!-- Closes container -->
 
 <!-- Results for rating search -->
 
@@ -54,8 +103,10 @@
             <!-- Counts results -->
             {% if rating_count == 0 %}
                 <p>No books with a {{rating_value}} <i class="fa fa-star star_rating"></i> rating</p>
+
             {% elif rating_count == 1 %}
                 <p>{{rating_count}} book with a {{rating_value}} <i class="fa fa-star star_rating"></i> rating</p>
+                
             {% else %}
                 <p>{{rating_count}} books with a {{rating_value}} <i class="fa fa-star star_rating"></i> rating</p>
             {% endif %}
@@ -64,35 +115,43 @@
     </div>
 </div>
 <br>
+
 <!-- Displays results -->
 <div class="container">
     <div class="row">
         {% for book in rating_results %}
-        <div class="col-sm-12 col-md-4">
+            <div class="col-sm-12 col-md-4">
             
-            <!-- Image links to full book details page -->
-            <a href="{{ url_for('full_book_details', book_id=book._id)}}">
-                <p class="title_color"><strong>{{book.book_name|title}}</strong></p>
-            </a>
+                <!-- Book name with a link to the full details page -->
+                <a href="{{ url_for('full_book_details', book_id=book._id)}}">
+                    <p class="ellipses title_color"><strong>{{book.book_name|title}}</strong></p>
+                </a>
             
-            <p class="author_color">by {{book.author_name|title}}</p>
-
-            <!-- If there is an image uploaded for the book then it will be displayed -->
-            {% if book.book_url %}
-                <p><a href="{{ url_for('full_book_details', book_id=book._id) }}"><img class="img_height_width" src="{{book.book_url}}" alt="{{book.book_name}}"></p></a>
-
-            <!-- A default image will be displayed if there isn't an image uploaded -->
-            {% else %}
-                <p><a href="{{ url_for('full_book_details', book_id=book._id) }}"><img
-                            src="{{ url_for('static', filename='img/unknown_book.png' )}}" height="200" width="200"
-                            alt="{{book.book_name}}"></img></a>
-                </p>
-            {% endif %}
-            <hr>
-        </div> <!-- Close col classes -->
+                <!-- Author name -->
+                <p class="ellipses author_color">by {{book.author_name|title}}</p>
+            
+                <!-- If there is an image uploaded for the book then it will be displayed, which also links to the full details page -->
+                {% if book.book_url %}
+                    <p>
+                        <a href="{{ url_for('full_book_details', book_id=book._id) }}"><img class="img_height_width"
+                                src="{{book.book_url}}" alt="{{book.book_name}}"></img></a>
+                    </p>
+            
+                <!-- A default image will be displayed if there isn't an image uploaded -->
+                {% else %}
+                    <p>
+                        <a href="{{ url_for('full_book_details', book_id=book._id) }}"><img
+                                src="{{ url_for('static', filename='img/unknown_book.png' )}}" height="200" width="200"
+                                alt="{{book.book_name}}"></img></a>
+                    </p>
+                {% endif %}
+                <hr>
+            </div> <!-- Close col classes -->
+            
         {% endfor %}
     </div> <!-- Close row -->
 </div> <!-- Close container -->
+<br>
 {% endif %}
 
 {% endblock %}
