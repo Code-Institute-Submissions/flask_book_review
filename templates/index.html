@@ -12,17 +12,17 @@
         <div class="container">
             <h1 class="display-3">Top Fiction Titles</h1><br>
             
-            <div class="row flex_container center-align">
+            <div class="row center-align">
                 {% for book in fiction %}
-                    <div class="col-sm-12 col-md-4 flex">
+                    <div class="col-sm-12 col-md-4 margin-top">
                         
                         <!-- Book's name with link to be redirected to full details page -->
                         <a href="{{ url_for('full_book_details', book_id=book._id)}}">
-                            <p class="title_color"><strong>{{book.book_name|title}}</strong></p>
+                            <p class="ellipses title_color"><strong>{{book.book_name|title}}</strong></p>
                         </a>
 
                         <!-- Author name -->
-                        <p class="author_color">by {{book.author_name|title}}</p>
+                        <p class="ellipses author_color">by {{book.author_name|title}}</p>
 
                         <!-- If book image upload is successful, the image will be loaded -->
                         {% if book.book_url %}
@@ -58,17 +58,17 @@
         <h1 class="display-3">Top Non-Fiction Titles</h1>
         <div class="container">
             <br>
-            <div class="row flex_container center-align">
+            <div class="row center-align">
                 {% for book in non_fiction %}
-                    <div class="col-sm-12 col-md-4 flex">
+                    <div class="col-sm-12 col-md-4 margin-top">
                         
                         <!-- Book's name with link to be redirected to full details page -->
                         <a href="{{ url_for('full_book_details', book_id=book._id)}}">
-                            <p class="title_color"><strong>{{book.book_name|title}}</strong></p>
+                            <p class="ellipses title_color"><strong>{{book.book_name|title}}</strong></p>
                         </a>
 
                         <!-- Author name -->
-                        <p class="author_color">by {{book.author_name|title}}</p>
+                        <p class="ellipses author_color">by {{book.author_name|title}}</p>
 
                         <!-- If book image upload is successful, the image will be loaded -->
                         {% if book.book_url %}
