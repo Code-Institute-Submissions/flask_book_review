@@ -10,14 +10,6 @@ $(document).ready(function () {
     
     });
 
-    // makes the heading bigger/smaller when mouse enters/leaves
-    $("a.search_heading").mouseenter(function() {
-        $(this).addClass('sizeLarger')
-    });
-
-    $("a.search_heading").mouseleave(function () {
-        $(this).removeClass('sizeLarger')
-    });
 });
 
 // Function that pops an alert on the browser with a confirmation before a book is deleted 
