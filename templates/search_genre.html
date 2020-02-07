@@ -15,10 +15,12 @@
 <div class="container">
     <div class="row">
         <div class="col-sm-12 col-md-2">
-            <p><a class="search_heading custom_a" href="{{ url_for('search_genre') }}">Filter by genre</a></p>
+            <p class="active_page"><a class="custom_a" href="{{ url_for('search_genre') }}">Filter by genre</a></p>
+            <!-- Added hr to put line under active page -->
+            <hr>
         </div>
         <div class="col-sm-12 col-md-2">
-            <p><a class="search_heading custom_a" href="{{ url_for('search_rating') }}">Filter by ratings</a></p>
+            <p><a class="custom_a" href="{{ url_for('search_rating') }}">Filter by ratings</a></p>
         </div>
     </div> <!-- closing row -->
     <br>
@@ -28,14 +30,14 @@
 <div class="container">
     <div class="row">
         {% for genre in all_genre %}
-        <form action="{{ url_for('search_genre_function') }}" method="POST">
-            
-            <!-- Displays the different genre types available as buttons -->
-            <div class="col-sm-12 col-md-4">
-                <button class="search_button" type="submit" name="genre_name" value="{{genre.genre_name}}">{{genre.genre_name}}</button>
-            </div>
-            
-        </form>
+            <form action="{{ url_for('search_genre_function') }}" method="POST">
+                
+                <!-- Displays the different genre types as buttons -->
+                <div class="col-sm-12 col-md-4">
+                    <button class="search_button" type="submit" name="genre_name" value="{{genre.genre_name}}">{{genre.genre_name}}</button>
+                </div>
+                
+            </form>
         {% endfor %}
     </div>
 </div>
@@ -45,33 +47,36 @@
 <div class="container">
     <div class="row">
         {% for book in books %}
-        <div class="col-sm-12 col-md-4">
+            <div class="col-sm-12 col-md-4">
 
-            <!-- Book's name along with redirect link to book's full details -->
-            <a href="{{ url_for('full_book_details', book_id=book._id)}}">
-                <h5 class="title_color">{{book.book_name|title}}</h5>
-            </a>
+                <!-- Book's name along with redirect link to book's full details -->
+                <a href="{{ url_for('full_book_details', book_id=book._id)}}">
+                    <h5 class="ellipses title_color">{{book.book_name|title}}</h5>
+                </a>
 
-            <!-- Author name -->
-            <p class="author_color">by {{book.author_name|title}}</p>
+                <!-- Author name -->
+                <p class="ellipses author_color">by {{book.author_name|title}}</p>
 
-            <!-- Rating value -->
-            <p>{{book.rating_value}} <i class="fa fa-star star_rating"></i></p>
+                <!-- Rating value -->
+                <p>{{book.rating_value}} <i class="fa fa-star star_rating"></i></p>
 
-            <!-- If there is an image uploaded for the book then it will be displayed -->
-            {% if book.book_url %}
-                <p><a href="{{ url_for('full_book_details', book_id=book._id) }}"><img class="img_height_width" src="{{book.book_url}}"
-                            alt="{{book.book_name}}"></p></a>
+                <!-- If there is an image uploaded for the book then it will be displayed, which also links to the full details page -->
+                {% if book.book_url %}
+                    <p>
+                        <a href="{{ url_for('full_book_details', book_id=book._id) }}"><img class="img_height_width" src="{{book.book_url}}"
+                                alt="{{book.book_name}}"></img></a>
+                    </p>
 
-            <!-- A default image will be displayed if there isn't an image uploaded -->
-            {% else %}
-                <p><a href="{{ url_for('full_book_details', book_id=book._id) }}"><img
-                            src="{{ url_for('static', filename='img/unknown_book.png' )}}" height="200" width="200"
-                            alt="{{book.book_name}}"></img></a>
-                </p>
-            {% endif %}
-            <hr>
-        </div> <!-- Closes col-sm-12 col-md-4 -->
+                <!-- A default image will be displayed if there isn't an image uploaded -->
+                {% else %}
+                    <p>
+                        <a href="{{ url_for('full_book_details', book_id=book._id) }}"><img
+                                src="{{ url_for('static', filename='img/unknown_book.png' )}}" height="200" width="200"
+                                alt="{{book.book_name}}"></img></a>
+                    </p>
+                {% endif %}
+                <hr>
+            </div> <!-- Closes col-sm-12 col-md-4 -->
         {% endfor %}
     </div> <!-- Closes row -->
 
@@ -85,7 +90,7 @@
             <!-- Displays the next page number(s) -->
             {% else %}
                 <li class="waves-effect"><a class="pagination"
-                        href="{{ url_for('search_page', current_page=page_number) }}">{{ page_number }}</a></li>
+                        href="{{ url_for('search_genre', current_page=page_number) }}">{{ page_number }}</a></li>
             {% endif %}
         {% endfor %}
     </ul>
@@ -114,38 +119,44 @@
     </div>
 </div>
 <br>
+
 <!-- Displays results -->
 <div class="container">
     <div class="row">
         {% for book in results %}
-        <div class="col-sm-12 col-md-4">
-            <!-- Book's name along with redirect link to book's full details -->
-            <a href="{{ url_for('full_book_details', book_id=book._id)}}">
-                <p class="title_color"><strong>{{book.book_name|title}}</strong></p>
-            </a>
 
-            <!-- Author name -->
-            <p class="author_color">by {{book.author_name|title}}</p>
+            <div class="col-sm-12 col-md-4">
+                <!-- Book's name along with redirect link to book's full details -->
+                <a href="{{ url_for('full_book_details', book_id=book._id)}}">
+                    <p class="ellipses title_color"><strong>{{book.book_name|title}}</strong></p>
+                </a>
 
-            <!-- Rating value -->
-            <p>{{book.rating_value}} <i class="fa fa-star star_rating"></i></p>
+                <!-- Author name -->
+                <p class="ellipses author_color">by {{book.author_name|title}}</p>
 
-            <!-- If there is an image uploaded for the book then it will be displayed -->
-            {% if book.book_url %}
-                <p><a href="{{ url_for('full_book_details', book_id=book._id) }}"><img class="img_height_width" src="{{book.book_url}}" alt="{{book.book_name}}"></p></a>
-            
-            <!-- A default image will be displayed if there isn't an image uploaded -->
-            {% else %}
-                <p><a href="{{ url_for('full_book_details', book_id=book._id) }}"><img
-                            src="{{ url_for('static', filename='img/unknown_book.png' )}}" height="200" width="200"
-                            alt="{{book.book_name}}"></img></a>
-                </p>
-            {% endif %}
-            <hr>
-        </div>
+                <!-- Rating value -->
+                <p>{{book.rating_value}} <i class="fa fa-star star_rating"></i></p>
+
+                <!-- If there is an image uploaded for the book then it will be displayed, which also links to full details page -->
+                {% if book.book_url %}
+                    <p>
+                        <a href="{{ url_for('full_book_details', book_id=book._id) }}"><img class="img_height_width" src="{{book.book_url}}" alt="{{book.book_name}}"></img></a>
+                    </p>
+                
+                <!-- A default image will be displayed if there isn't an image uploaded -->
+                {% else %}
+                    <p>
+                        <a href="{{ url_for('full_book_details', book_id=book._id) }}"><img
+                                src="{{ url_for('static', filename='img/unknown_book.png' )}}" height="200" width="200"
+                                alt="{{book.book_name}}"></img></a>
+                    </p>
+                {% endif %}
+                <hr>
+            </div> <!-- Closes col classes -->
+
         {% endfor %}
-    </div>
-</div>
+    </div> <!-- Closes row -->
+</div> <!-- Closes container with results -->
 <br>
 {% endif %}
 
