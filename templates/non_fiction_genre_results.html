@@ -70,11 +70,11 @@
                 <div class="col-sm-12 col-md-4">
                     <!-- Book name which also links to the full book details page -->
                     <a href="{{ url_for('full_book_details', book_id=book._id)}}">
-                        <p class="title_color"><strong>{{book.book_name|title}}</strong></p>
+                        <p class="ellipses title_color"><strong>{{book.book_name|title}}</strong></p>
                     </a>
 
                     <!-- Author name -->
-                    <p class="author_color">by {{book.author_name|title}}</p>
+                    <p class="ellipses author_color">by {{book.author_name|title}}</p>
 
                     <!-- Book rating -->
                     <p>{{book.rating_value}} <i class="fa fa-star star_rating"></i></p>
