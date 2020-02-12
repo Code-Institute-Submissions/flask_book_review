@@ -16,7 +16,9 @@
 
             <!-- Book description - has been altered so it will capitalize first letter, but other letters within 
             the description can still be capitalized. Can be seen in app.py -->
-            <p>{{info}}</p>
+            {% for description in info %}
+                <p>{{description}}</p>
+            {% endfor %}
 
         </div>
         
