@@ -45,20 +45,11 @@
 </div>
 <br>
 
-<div class="container">
-    <div class="row">
-        <div class="col-sm-12 col-md-12">
-            <h4>Top Rated</h4>
-        </div>
-    </div>
-</div>
-<br>
 
-<!-- Displays all books in the database -->
+<!-- Displays books in the database, but only the top rated will be shown with a limit of 6 - seen in app.py -->
 <div class="container">
     <div class="row">
         {% for book in books %}
-
             <div class="col-sm-12 col-md-4">
                 <!-- Book's name along with redirect link to book's full details -->
                 <a href="{{ url_for('full_book_details', book_id=book._id)}}">
@@ -120,6 +111,7 @@
 <div class="container">
     <div class="row">
         {% for book in rating_results %}
+
             <div class="col-sm-12 col-md-4">
             
                 <!-- Book name with a link to the full details page -->
@@ -153,5 +145,5 @@
 </div> <!-- Close container -->
 <br>
 {% endif %}
-
+<br>
 {% endblock %}
