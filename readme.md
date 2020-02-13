@@ -13,7 +13,7 @@ I experimented with some of the different features and capabilities of mongoDB, 
 Currently there aren’t any username capabilities for this website. In order to ensure the database couldn’t be left empty, I created a certain number of books that couldn’t be deleted. I achieved this by creating a hidden value and an automatic input for the books I didn’t want to delete, and for new books created.  
 
 ----------------------
-### An issue that had arisen during commits
+### An issue that had arisen during commits - caused an error relating to contributors 
 
 On Github there is an error whereby it states there are 2 contributors. The reason for this is because when I initially set up this repository and made my first commit, it stated that the author of that commit was usernameusername. After researching what the issue was, I found it was due to my email address being on private which meant Github was unable to recognise my username. When I fixed the issue Github successfully starting recording my username when committing, however the first commit I made during the issue could not be fully deleted and rectified. Therefore I am the only contributor to this project.  
 
@@ -28,16 +28,22 @@ Currently images aren’t stored locally. Images are displayed based on the url 
 For the sake of this project, this method for storing images has been kept, however in the future I would like to incorporate a system that would allow images to be stored locally. 
 
 ## UX and UI
-My goals: 
-    - Build a website that was simple and easy to manoeuvre through and understand,
-    - Allow users to easily reach their destination,
+* Identified during planning:
+    - Who are my audience?
+    - What do they want to achieve? 
+    - Was it in line with what I wanted them to achieve? 
+
+* My goals: 
     - Create a mobile first website that was responsive,
+    - Build a website that is easy to understand and manoeuvre through, ensuring users can quickly identify the different areas of the website and perform the tasks they want to achieve:
+        * Viewing different book categories, add/edit/delete a book, filter books etc. 
     - Have an appealing aesthetic.
 
-How was it achieved? 
-    - I used Balsamiq to create wireframes in order to achieve this goal. 
+* How was it achieved? 
+    - I used Balsamiq to create wireframes in order to achieve these goals. 
     - Balsamiq allowed me to see how easy it was to see where everything was located, but also whether it was appealing for the user. 
     - Bootstrap column and row features allowed me to incorporate a mobile first design.
+    - Manual testing was performed to ensure the website was responsive as intended.
  
 
 ## Features
@@ -75,6 +81,9 @@ How was it achieved?
     - Experiment with other ways users can add images in order to make it easier and accurate without having to rely on the correct image url being uploaded. This will also prevent broken images on the website.
     - Develop a method to store images locally, therefore gaining control.
 * I would like to experiment with AJAX, such as applying functions without having the page reload. 
+* Change the way ratings are handled: 
+    - Users would be able to hover over stars and change the rating.
+* I would like to create a method for users to sort how the books are displayed to them e.g. based on rating, name, most recent etc. 
 
 ## Methods used
 
@@ -86,7 +95,11 @@ How was it achieved?
 6. Font Awesome - used for icons
 
 ## Testing techniques 
-  
+* Overview: 
+    - IDE console 
+    - Developer tools 
+    - Manual testing 
+
 ### Manual testing
 > Front-end 
 * https://chrome.google.com/webstore/detail/responsive-web-design-tes/bdpelkpfhjfiacjeobkhlkkgaphbobea.
@@ -101,6 +114,8 @@ How was it achieved?
 * Tested images:
     - Images were displayed correctly, especially when an image wasn't uploaded correctly. 
 * W3C code validator was used to check the HTML portions of code.
+* Tested the email icon in the navbar successfully redirects the user to their mail service 
+    – This currently acts as the contact method for the website set up with an example email address. 
 
 > Back-end
 * I tried entering data that was outside what was expected to try and break the code, which helped identify what safeguards needed to be in place: 
@@ -142,7 +157,11 @@ https://sara-book-project.herokuapp.com
 ### Loading my Heroku app on your local machine 
 
 #### Github method 
-1. Download the project to be used on your IDE.
+1. Download the project to be used on your IDE:
+    1. Download as a zip file
+    OR
+    2. Git clone the project 
+
 2. Download the packages and requirements from the requirements.txt file:
     ```sh
         pip3 install -r requirements.txt 
@@ -155,14 +174,17 @@ https://sara-book-project.herokuapp.com
 ## Credits
 
 ### Media
-* The images used for this project have been obtained from Google and Amazon.
+* The images used for this project have been obtained from Google, Waterstones and Amazon.
 * Waterstones was used as an example when adding a website link for a book.
 
 ### Acknowledgements 
-* Assistance from mentor: Dick Vlaanderen 
+* Feedback from mentor: Dick Vlaanderen:
+    - Advised using pagination
 * Online tutorial from Pretty printed for pagination 
 * Tutorials from CodingEntrepreneurs:  
-    - Introduction to a confirm alert window:  
+    - Introduction to a 'confirm' alert window:  
         - I adapted this to work for my project whereby users are sent a confirm alert. 
+* Certain book descriptions have been taken from Waterstones.
+
 
 **This is for educational purposes**
