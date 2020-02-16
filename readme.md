@@ -44,7 +44,17 @@ For the sake of this project, this method for storing images has been kept, howe
     - Balsamiq allowed me to see how easy it was to see where everything was located, but also whether it was appealing for the user. 
     - Bootstrap column and row features allowed me to incorporate a mobile first design.
     - Manual testing was performed to ensure the website was responsive as intended.
- 
+
+### Wireframes
+[View wireframes](wireframe/BookProject.pdf)
+
+### User Stories
+
+*Easily view books available to me*
+*Add books I like and view them later*
+*See which books are the most popular*
+*Search through the different books*
+
 
 ## Features
 
@@ -180,7 +190,7 @@ https://sara-book-project.herokuapp.com
 ### Acknowledgements 
 * Feedback from mentor: Dick Vlaanderen:
     - Advised using pagination
-* Online tutorial from Pretty printed for pagination 
+* Pagination: Online tutorial from Pretty printed and assistance from Slack member Shane Muir.
 * Tutorials from CodingEntrepreneurs:  
     - Introduction to a 'confirm' alert window:  
         - I adapted this to work for my project whereby users are sent a confirm alert. 
