@@ -398,9 +398,9 @@ def insert_book():
     """
 
     books = mongo.db.book
-    books.insert_one(request.form.to_dict())
+    insert_book = books.insert_one(request.form.to_dict())
     
-    return redirect(url_for('home'))
+    return redirect(url_for("full_book_details", book_id=insert_book.inserted_id))
 
 
 @app.route('/edit_book/<book_id>')
@@ -460,7 +460,7 @@ def update_book(book_id):
         'book_website': request.form.get('book_website')
     })
 
-    return redirect(url_for( "full_book_details", book_id=book_id))
+    return redirect(url_for("full_book_details", book_id=book_id))
 
 
 @app.route('/delete_book/<book_id>')
