@@ -61,6 +61,11 @@ a.pagination {
     width: 150px;
 }
 
+.unknown_img {
+    height: 210px;
+    width: 200px;
+}
+
 .ellipses {
     overflow: hidden;
     white-space: nowrap;
