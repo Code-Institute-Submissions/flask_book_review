@@ -75,11 +75,11 @@
                         <a href="{{ url_for('full_book_details', book_id=book._id) }}"><img class="img_height_width" src="{{book.book_url}}" alt="{{book.book_name}}"></img></a>
                     </p>
                 
-                <!-- If there isn't a link a default image will be shown instead -->
+                <!-- If there isn't an image, a default image will be shown instead -->
                 {% else %}
                     <p>
-                        <a href="{{ url_for('full_book_details', book_id=book._id) }}"><img
-                                src="{{ url_for('static', filename='img/unknown_book.png' )}}" height="200" width="200"
+                        <a href="{{ url_for('full_book_details', book_id=book._id) }}"><img class="unknown_img"
+                                src="{{ url_for('static', filename='img/unknown_book.png' )}}"
                                 alt="{{book.book_name}}"></img></a>
                     </p>
                 {% endif %}
