@@ -85,7 +85,8 @@
 </div>
 <br>
 
-<!-- Logic to query the database to see if there are any books with the same genre as the one on the page -->
+<!-- Logic to query the database to see if there are any books with the same genre as the one on the page - this will be used to 
+suggest other books to the user -->
 <div class="container">
     <div class="row">
         <!-- Finds all books in the database -->
@@ -103,11 +104,11 @@
                         <div class="col-sm-12 col-md-4">  
                             <!-- Book's name and redirect link to its full details page -->
                             <a href="{{ url_for('full_book_details', book_id=all._id)}}">
-                                <h5 class="title_color">{{all.book_name|title}}</h5>
+                                <h5 class="ellipses title_color">{{all.book_name|title}}</h5>
                             </a>
 
                             <!-- Author name -->
-                            <p class="author_color">{{all.author_name|title}}</p>
+                            <p class="ellipses author_color">{{all.author_name|title}}</p>
 
                             <!-- Rating value -->
                             <p>{{all.rating_value}} <i class="fa fa-star star_rating"></i></p>
