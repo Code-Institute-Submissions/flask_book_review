@@ -36,7 +36,7 @@
         <div class="row">
             <div class="form-group col-sm-12">
                 <label for="book_url">Image</label>
-                <input type="text" class="form-control" id="book_url" name="book_url" value="{{book.book_url}}" placeholder="Copy image address to get .jpg image type">
+                <input type="text" class="form-control" id="book_url" name="book_url" value="{{book.book_url}}" placeholder="Copy image address to successfully upload image">
             </div>
         </div>
 
@@ -45,7 +45,7 @@
             <div class="form-group col-sm-12">
                 <label for="book_website">Website Link</label>
                 <input type="text" class="form-control" id="book_website" name="book_website" value="{{book.book_website}}"
-                    placeholder="e.g. https://www.waterstones.com">
+                    placeholder="Copy website address, e.g. https://www.waterstones.com">
             </div>
         </div>
 
@@ -113,7 +113,13 @@
         <div class="row">
             <button class="btn btn-primary" type="submit">Update Book</button>
         </div>
-
+        
     </form>
+    <div>
+        <button class="btn btn-primary">
+            <a class="white_font" href="{{url_for('full_book_details', book_id=book._id) }}">Cancel</a>
+        </button>
+    </div>
+    <br>
 </div> <!-- Closing form container class -->
 {% endblock %}
