@@ -46,7 +46,7 @@
 <br>
 
 
-<!-- Displays books in the database, but only the top rated will be shown with a limit of 6 - seen in app.py -->
+<!-- Displays books in the database -->
 <div class="container">
     <div class="row">
         {% for book in books %}
@@ -82,6 +82,23 @@
             
         {% endfor %}
     </div> <!-- Closes row -->
+
+    <!-- Pagination -->
+    <ul class="pagination">
+        {% for page_number in page %}
+            <!-- Displays the current page number -->
+            {% if page_number == current_page %}
+            <li class="active"><a class="pagination">{{ page_number }}</a></li>
+        
+            <!-- Displays the next page number(s) -->
+            {% else %}
+            <li class="waves-effect"><a class="pagination"
+                    href="{{ url_for('search_rating', current_page=page_number) }}">{{ page_number }}</a>
+            </li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+
 </div> <!-- Closes container -->
 
 <!-- Results for rating search -->
