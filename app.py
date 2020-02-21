@@ -305,7 +305,6 @@ def search_genre():
 
     return render_template("search_genre.html", 
                             all_genre=mongo.db.genre.find(),
-                            ratings=mongo.db.rating.find(),
                             books=books,
                             current_page=current_page,
                             page=page)
@@ -336,16 +335,22 @@ def search_rating():
     """ 
     Landing page to filter books based on rating
     """
+
+    # Pagination logic 
+    page_limit = 9
+    book_count = mongo.db.book.count()
+    current_page = int(request.args.get('current_page', 1))
+    page = range(1, int(math.ceil(book_count / page_limit)) +1)
     
-    # Look for all the books in the database, and sort them based on rating, descending. Applies a limit of 6 books
-    books = mongo.db.book.find({
-        "rating_value":  { "$in": ["5", "4"] }
-    }).sort("rating_value", -1).limit(6)
+    # Look for all the books in the database, sort by author name, applies pagination
+    books = mongo.db.book.find({}).sort("author_name", 1).skip((current_page - 1)*page_limit).limit(page_limit)
 
     return render_template("search_rating.html",
                             all_genre=mongo.db.genre.find(),
                             ratings=mongo.db.rating.find(),
-                            books=books)
+                            books=books,
+                            current_page=current_page,
+                            page=page)
 
 
 @app.route('/search_rating_function', methods=['GET', 'POST'])
