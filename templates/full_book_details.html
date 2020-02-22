@@ -5,7 +5,7 @@
 <br>
 <div class="container">
     <div class="row">
-        <div class="col-sm-12 col-md-6">
+        <div class="col-sm-12 col-md-7">
 
             <!-- Specific book details -->
             <h2>{{book.book_name|title}}</h2>
@@ -17,12 +17,12 @@
             <!-- Book description - has been altered so it will capitalize first letter, but other letters within 
             the description can still be capitalized. Can be seen in app.py -->
             {% for description in info %}
-                <p>{{description}}</p>
+                <p><span class="text_wrapping">{{description}}</span></p>
             {% endfor %}
 
         </div>
         
-        <div class="col-sm-12 col-md-6">
+        <div class="col-sm-12 col-md-5">
             <!-- If book image upload is successful, the image will be loaded -->
             {% if book.book_url %}
                 <img src="{{book.book_url}}" height="260" width="190" alt="{{book.book_name}}"></img>
@@ -40,7 +40,7 @@
                 
                 <!-- If there isn't a website link uploaded, the user will be asked if they want to link a website  -->
                 {% else %}  
-                    <p>Oops, looks like your picture hasn't loaded correctly.</p>
+                    <p>Don't have a picture?</p>
                     <p>Click <a href="{{ url_for('edit_book', book_id=book._id) }}"> here</a> to try again or alternatively link a website for the image.</p>
                 {% endif %}
                 
@@ -66,6 +66,8 @@
 
             <!-- Button and form function to delete a book -->
             <div>
+                <!-- An alert is prompted if the delete button is pressed, asking the user to confirm they want
+                to delete the book -->
                 <button class="btn btn-primary margin-btn" onclick="deleteConfirm('{{ book._id }}')">Delete book</button>
                 <p id="demo"></p>
                 <form id="deleteForm{{book._id}}" action="{{ url_for('delete_book', book_id=book._id) }}" method="GET"></form>
@@ -116,7 +118,7 @@ suggest other books to the user -->
                             <!-- Check if there is an image uploaded for the book, and display it -->
                             {% if all.book_url %}
                                 <p>
-                                    <a href="{{ url_for('full_book_details', book_id=all._id) }}"><img class="img_height_width" src="{{all.book_url}}" alt="{{book.book_name}}"></a>
+                                    <a href="{{ url_for('full_book_details', book_id=all._id) }}"><img class="img_height_width" src="{{all.book_url}}" alt="{{book.book_name}}"></img></a>
                                 </p>
                             
                             <!-- If there isn't an image, then a default one will be shown -->
