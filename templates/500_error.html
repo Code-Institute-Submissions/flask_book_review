@@ -2,6 +2,7 @@
 {% block page_title %} <title>500 error page</title> {% endblock %}
 
 {% block content %}
+<br>
 <div class="container">
     <div class="row">
         <div class="col-sm-12">
@@ -9,7 +10,7 @@
             <br>
             <h5>We seem to be experiencing an internal server error.</h5>
             <p>We've saved your issue and made it our top priority! In the meantime, we'd love it if you could check that
-                your information is valid</p>
+                your information is valid.</p>
             <br>
             <p>Click the rocket to be sent back home</p>
             <a href="{{ url_for('home') }}"><img src="{{ url_for('static', filename='img/rocket.jpg') }}" height="120" width="110"
