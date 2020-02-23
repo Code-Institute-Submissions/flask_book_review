@@ -1,3 +1,7 @@
+body {
+    font-family: sans-serif, Georgia, 'Times New Roman', Times, serif;
+}
+
 .half_width_container {
     width: 50%;
 }
@@ -74,4 +78,20 @@ a.pagination {
 
 .active_page {
     font-style: italic;
+}
+
+.white_font {
+    color: white;
+}
+
+.white_font:hover {
+    color: white;
+    text-decoration: none;
+}
+
+.text_wrapping {
+    -webkit-hyphens: auto;
+    -moz-hyphens: auto;
+    -ms-hyphens: auto;
+    hyphens: auto;
 }
