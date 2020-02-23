@@ -478,6 +478,20 @@ def delete_book(book_id):
     mongo.db.book.remove({'_id': ObjectId(book_id)})
     return redirect(url_for('home'))
 
+@app.errorhandler(500)
+def error_500(errors):
+    """
+    User will be sent to this page if there is a 500 page error
+    """
+    return render_template("500_error.html"), 500
+
+@app.errorhandler(404)
+def error_404(errors):
+    """
+    User will be sent to this page if there is a 404 page error
+    """
+    return render_template("404_error.html"), 404
+
 if __name__ == '__main__':
     app.run(host=os.environ.get('IP'),
     port=int(os.environ.get('PORT')))
