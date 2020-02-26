@@ -23,22 +23,53 @@
         </div>
         
         <div class="col-sm-12 col-md-5">
-            <!-- If book image upload is successful, the image will be loaded -->
+
+            <!-- Will check if the user has uploaded a book image, and then check if it is a valid file type as specified in app.py.
+            If the file is valid, it will be displayed. 
+            The process is as follows if the user uploads an invalid image:
+            A default image will be shown. Then it will check if the user has a website link uploaded as a backup option. If there is a website link, the user
+            will be given the link to be redirected to it. If there isn't a link, the user will be asked if they want to upload one instead of uploading an image. -->
             {% if book.book_url %}
-                <img src="{{book.book_url}}" height="260" width="190" alt="{{book.book_name}}"></img>
-            
-            <!-- If the image has not been uploaded correctly a default image will be displayed, and a message
-            is displayed asking the user if they want to upload a website link for the image instead -->
+                
+                <!-- This will check whether the user has uploaded an invalid image. -->
+                {% if count_invalid_image == 1 %}
+                    
+                    <!-- If the image is invalid, it will now see if there is a website link available, and if so, give the user the option to click on it to view 
+                    their image. -->
+                    {% if book.book_website %}
+                        <p><img src="{{ url_for('static', filename='img/unknown_book.png' )}}" height="250" width="250"
+                                alt="{{book.book_name}}"></img></p>
+                        <p>Oops, looks like you don't have a picture. Don't worry, you have a website link instead!</p>
+                        <p>Click<a href="{{book.book_website}}"> here</a> to be sent to your link.</p>
+                        <p>Can't see your link? Click <a href="{{ url_for('edit_book', book_id=book._id) }}"> here</a> to try again.</p>
+
+                    <!-- If however there isn't a website link available, then the user is again shown a default image, but this time they are asked if they would
+                    like to upload a link -->
+                    {% else %}
+                        <p><img src="{{ url_for('static', filename='img/unknown_book.png' )}}" height="250" width="250"
+                                alt="{{book.book_name}}"></img></p>
+                        <p>Can't see your image? Click <a href="{{ url_for('edit_book', book_id=book._id) }}"> here</a> to try again or
+                            alternatively upload a link to a website instead.</p>
+                    {% endif %}
+                    
+                <!-- Displays the book image if it is valid -->
+                {% else %}
+                    <img src="{{book.book_url}}" height="260" width="190" alt="{{book.book_name}}"></img>
+                {% endif %}
+
+            <!-- Will come to the else statement if the user hasn't uploaded a book image or a website. Will also come to the else statement if a user has decided to upload
+                a website link and not an image link. -->
             {% else %} 
                 <!-- Default image -->
                 <p><img src="{{ url_for('static', filename='img/unknown_book.png' )}}" height="250" width="250" alt="{{book.book_name}}"></img></p>
                 
-                <!-- If there is a website link already uploaded for a book, only a link to the website will be displayed -->
+                <!-- If there is a website link uploaded for a book, a link to the website will be displayed -->
                 {% if book.book_website %}
-                    <p>Oops, looks like your picture hasn't loaded correctly, luckily you've linked a website</p>
-                    <p>Click<a href="{{book.book_website}}"> here</a> to be sent to your link</p>
+                    <p>Oops, looks like you don't have picture, luckily you've linked a website.</p>
+                    <p>Click<a href="{{book.book_website}}"> here</a> to be sent to your link.</p>
+                    <p>Can't see your link? Click <a href="{{ url_for('edit_book', book_id=book._id) }}"> here</a> to try again.</p>
                 
-                <!-- If there isn't a website link uploaded, the user will be asked if they want to link a website  -->
+                <!-- If there isn't an image or a website link uploaded, the user will be asked if they want to try again or link a website  -->
                 {% else %}  
                     <p>Don't have a picture?</p>
                     <p>Click <a href="{{ url_for('edit_book', book_id=book._id) }}"> here</a> to try again or alternatively link a website for the image.</p>
