@@ -2,8 +2,7 @@
 {% block page_title %} <title>Search Rating</title> {% endblock %}
 
 {% block content %}
-<br>
-<div class="container">
+<div class="container margin_top">
     <div class="row">
         <div class="col-sm-12">
             <a href="{{ url_for('search_page') }}">
@@ -13,8 +12,7 @@
     </div>
 </div>
 
-<br>
-<div class="container">
+<div class="container margin_top">
     <div class="row">
         <div class="col-sm-12 col-md-2">
             <p><a class="custom_a" href="{{ url_for('search_genre') }}">Filter by genre</a></p>
@@ -25,11 +23,10 @@
             <hr>
         </div>
     </div> <!-- Closing row -->
-    <br>
 </div> <!-- Closing container -->
 
 <!-- Buttons to allow user to filter based on ratings -->
-<div class="container">
+<div class="container margin_top">
     <div class="row">
         {% for rating in ratings %}
             <form action="{{ url_for('search_rating_function') }}" method="POST">
@@ -43,11 +40,9 @@
         {% endfor %}
     </div>
 </div>
-<br>
-
 
 <!-- Displays books in the database -->
-<div class="container">
+<div class="container margin_top">
     <div class="row">
         {% for book in books %}
             <div class="col-sm-12 col-md-4">
@@ -77,14 +72,12 @@
                                 alt="{{book.book_name}}"></img></a>
                     </p>
                 {% endif %}
-                <hr>
             </div> <!-- Closes col-sm-12 col-md-4 -->
-            
         {% endfor %}
     </div> <!-- Closes row -->
 
     <!-- Pagination -->
-    <ul class="pagination">
+    <ul class="pagination margin_bottom">
         {% for page_number in page %}
             <!-- Displays the current page number -->
             {% if page_number == current_page %}
@@ -102,7 +95,6 @@
 </div> <!-- Closes container -->
 
 <!-- Results for rating search -->
-
 {% if rating_results %}
 <div class='container'>
     <div class='row'>
@@ -122,10 +114,9 @@
         </div>
     </div>
 </div>
-<br>
 
 <!-- Displays results -->
-<div class="container">
+<div class="container margin_top">
     <div class="row">
         {% for book in rating_results %}
 
@@ -154,13 +145,12 @@
                                 alt="{{book.book_name}}"></img></a>
                     </p>
                 {% endif %}
-                <hr>
+                
             </div> <!-- Close col classes -->
             
         {% endfor %}
     </div> <!-- Close row -->
 </div> <!-- Close container -->
-<br>
 {% endif %}
-<br>
+
 {% endblock %}

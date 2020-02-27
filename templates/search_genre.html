@@ -2,8 +2,7 @@
 {% block page_title %} <title>Search Genre</title> {% endblock %}
 
 {% block content %}
-<br>
-<div class="container">
+<div class="container margin_top">
     <div class="row">
         <div class="col-sm-12">
             <a href="{{ url_for('search_page') }}"><h2 class="custom_a">All Books</h2></a>
@@ -11,8 +10,7 @@
     </div>
 </div>
 
-<br>
-<div class="container">
+<div class="container margin_top">
     <div class="row">
         <div class="col-sm-12 col-md-2">
             <p class="active_page"><a class="custom_a" href="{{ url_for('search_genre') }}">Filter by genre</a></p>
@@ -23,11 +21,10 @@
             <p><a class="custom_a" href="{{ url_for('search_rating') }}">Filter by ratings</a></p>
         </div>
     </div> <!-- closing row -->
-    <br>
 </div> <!-- closing container -->
 
 <!-- Buttons for genre selection -->
-<div class="container">
+<div class="container margin_top">
     <div class="row">
         {% for genre in all_genre %}
             <form action="{{ url_for('search_genre_function') }}" method="POST">
@@ -41,10 +38,9 @@
         {% endfor %}
     </div>
 </div>
-<br>
 
 <!-- Displays all books in the database -->
-<div class="container">
+<div class="container margin_top">
     <div class="row">
         {% for book in books %}
             <div class="col-sm-12 col-md-4">
@@ -75,13 +71,13 @@
                                 alt="{{book.book_name}}"></img></a>
                     </p>
                 {% endif %}
-                <hr>
+                
             </div> <!-- Closes col-sm-12 col-md-4 -->
         {% endfor %}
     </div> <!-- Closes row -->
 
     <!-- Pagination -->
-    <ul class="pagination">
+    <ul class="pagination margin_bottom">
         {% for page_number in page %}
             <!-- Displays the current page number -->
             {% if page_number == current_page %}
@@ -93,7 +89,7 @@
                         href="{{ url_for('search_genre', current_page=page_number) }}">{{ page_number }}</a></li>
             {% endif %}
         {% endfor %}
-    </ul>
+    
 </div> <!-- Closes container -->
 
 
@@ -118,10 +114,9 @@
         </div>
     </div>
 </div>
-<br>
 
 <!-- Displays results -->
-<div class="container">
+<div class="container margin_top">
     <div class="row">
         {% for book in results %}
 
@@ -151,7 +146,7 @@
                                 alt="{{book.book_name}}"></img></a>
                     </p>
                 {% endif %}
-                <hr>
+                
             </div> <!-- Closes col classes -->
 
         {% endfor %}
