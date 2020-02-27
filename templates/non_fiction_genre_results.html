@@ -2,8 +2,7 @@
 {% block page_title %} <title>Non-Fiction Genre Search</title> {% endblock %}
 
 {% block content %}
-<br>
-<div class="container">
+<div class="container margin_top">
     <div class="row">
         <div class="col-sm-12">
             <a href="{{ url_for('non_fiction_books') }}">
@@ -12,10 +11,9 @@
         </div>
     </div>
 </div>
-<br>
 
 <!-- Displays the genres associated with the fiction titles -->
-<div class="container">
+<div class="container margin_top">
     <div class="row">
         {% for genres in non_fiction_genres %}
             <form action="{{ url_for('non_fiction_genre_search') }}" method="POST">
@@ -34,10 +32,9 @@
             value="Other">Other</button></a>
 </div>
 
-<br>
 <!-- Results for genre search -->
 {% if genre_results %}
-<div class='container'>
+<div class='container margin_top'>
     <div class='row'>
         <div class='col-sm-12 col-md-12'>
 
@@ -55,7 +52,6 @@
         </div>
     </div>
 </div>
-<br>
 
 <!-- Displays results -->
 <div class="container">
@@ -94,7 +90,7 @@
                                     alt="{{book.book_name}}"></img></a>
                         </p>
                     {% endif %}
-                    <hr>
+                    
                 </div> <!-- Close col classes -->
             {% endif %}
         {% endfor %} <!-- Close 'for book in genre_results' jinja loop -->
