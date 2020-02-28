@@ -10,6 +10,26 @@ app.config["MONGO_URI"] = os.environ.get('MONGO_URI', 'mongodb://localhost')
 
 mongo = PyMongo(app)
 
+def invalid_image_function():
+    """ 
+        Will be used globally to display images that are invalid - 
+        will display a default image if an invalid image is uploaded 
+    """
+    books_all= mongo.db.book.find()
+
+    # List to store books with an invalid image 
+    invalid_books = []
+
+    # What has been declared as valid image types
+    valid_img_types = ('.jpg', '.jpeg', '.png', '.gif')
+
+    # Looks for books in the database with invalid image uploads
+    for all in books_all:
+        # invalid_books = not all['book_url'].endswith(valid_img_types) 
+        if not all['book_url'].endswith(valid_img_types) and not all['book_url'].startswith('data:image/'):
+            invalid_books.append(all['book_name'])
+    print("invalid books", invalid_books)
+
 @app.route('/')
 @app.route('/home')
 def home():
@@ -62,12 +82,31 @@ def full_book_details(book_id):
         if k == 'book_info':
             info.append(v[0].capitalize() + v[1:])
     
+    # List to hold the book if it has an image uploaded that isn't valid - will be used 
+    # for the main image of the book displayed
+    invalid_image = []
+    
+
+    
+    # Will look for books that don't end in the specified accepted image file types from the tuple valid_img_types, and images 
+    # that don't start with 'data:image/' as these are also valid images. 
+    # These books will be classified as invalid images.
+    if not book['book_url'].endswith(valid_img_types) and not book['book_url'].startswith('data:image/'):
+        invalid_image.append(book['book_name'])
+        print('image not working')
+    else:
+        print('image WILL work')
+    
+    # Will count how many books are in the invalid_image list
+    count_invalid_image = len(invalid_image)
+
     return render_template('full_book_details.html', 
                             book=book, 
                             all_books=all_books, 
                             similar_genre_books=similar_genre_books, 
                             book_num=book_num,
-                            info=info)
+                            info=info,
+                            count_invalid_image=count_invalid_image)
 
 
 """ All code for fiction related titles """
@@ -78,6 +117,8 @@ def fiction_books():
     """ 
     Page to view all fiction books
     """
+    
+    invalid_image_function()
 
     # Pagination
     page_limit = 6
@@ -90,7 +131,7 @@ def fiction_books():
 
     # Query the database to find fiction books, sort based on author name and apply pagination 
     fiction=mongo.db.book.find({"fact_fiction": "Fiction"}).sort("author_name", 1).skip((current_page - 1)*page_limit).limit(page_limit)
-  
+
     return render_template('fiction_books.html', 
                             fiction=fiction, 
                             fiction_genres=fiction_genres,
