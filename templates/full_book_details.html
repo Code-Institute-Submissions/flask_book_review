@@ -146,13 +146,25 @@ suggest other books to the user -->
                             <!-- Rating value -->
                             <p>{{all.rating_value}} <i class="fa fa-star star_rating"></i></p>
                             
-                            <!-- Check if there is an image uploaded for the book, and display it -->
+                            <!-- Check if there is an image uploaded for the book -->
                             {% if all.book_url %}
-                                <p>
-                                    <a href="{{ url_for('full_book_details', book_id=all._id) }}"><img class="img_height_width" src="{{all.book_url}}" alt="{{book.book_name}}"></img></a>
-                                </p>
+
+                                <!-- If an image has been uploaded, it will check if it is invalid. If it is, a default image will be shown -->
+                                {% if all.book_name in invalid_books %}
+                                    <p>
+                                        <a href="{{ url_for('full_book_details', book_id=all._id) }}"><img
+                                                src="{{ url_for('static', filename='img/unknown_book.png' )}}" height="200" width="200"
+                                                alt="{{book.book_name}}"></img></a>
+                                    </p>
+                                
+                                <!-- If it is a valid image, it will be shown -->
+                                {% else %}
+                                    <p>
+                                        <a href="{{ url_for('full_book_details', book_id=all._id) }}"><img class="img_height_width" src="{{all.book_url}}" alt="{{all.book_name}}"></img></a>
+                                    </p>
+                                {% endif %}
                             
-                            <!-- If there isn't an image, then a default one will be shown -->
+                            <!-- A default image will also be displayed if an image hasn't been uploaded altogether -->
                             {% else %}
                                 <p>
                                     <a href="{{ url_for('full_book_details', book_id=all._id) }}"><img
