@@ -63,11 +63,13 @@ a.pagination {
 .img_height_width {
     height: 210px;
     width: 150px;
+    margin-bottom: 50px;
 }
 
 .unknown_img {
     height: 210px;
     width: 200px;
+    margin-bottom: 50px;
 }
 
 .ellipses {
@@ -94,4 +96,12 @@ a.pagination {
     -moz-hyphens: auto;
     -ms-hyphens: auto;
     hyphens: auto;
+}
+
+.margin_top {
+    margin-top: 30px;
+}
+
+.margin_bottom {
+    margin-bottom: 30px;
 }
