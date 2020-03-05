@@ -20,15 +20,17 @@ def invalid_image_function():
     # List to store books with an invalid image 
     invalid_books = []
 
-    # What has been declared as valid image types
+    # Tuple - What has been declared as valid image types
     valid_img_types = ('.jpg', '.jpeg', '.png', '.gif')
 
     # Looks for books in the database with invalid image uploads
     for all in books_all:
-        # invalid_books = not all['book_url'].endswith(valid_img_types) 
         if not all['book_url'].endswith(valid_img_types) and not all['book_url'].startswith('data:image/'):
             invalid_books.append(all['book_name'])
-    print("invalid books", invalid_books)
+    
+    return invalid_books
+
+    
 
 @app.route('/')
 @app.route('/home')
@@ -44,9 +46,13 @@ def home():
         "rating_value": { "$in": ["5", "4"] }
         }).sort("rating_value", -1).limit(3)
     
+    # This will call the invalid_image_function - books with an invalid image will display a default image
+    invalid_books = invalid_image_function()
+    
     return render_template('index.html', 
                             non_fiction=non_fiction, 
-                            fiction=fiction)
+                            fiction=fiction,
+                            invalid_books=invalid_books)
 
 
 
@@ -86,6 +92,8 @@ def full_book_details(book_id):
     # for the main image of the book displayed
     invalid_image = []
     
+    # What has been declared as valid image types
+    valid_img_types = ('.jpg', '.jpeg', '.png', '.gif')
 
     
     # Will look for books that don't end in the specified accepted image file types from the tuple valid_img_types, and images 
@@ -100,13 +108,18 @@ def full_book_details(book_id):
     # Will count how many books are in the invalid_image list
     count_invalid_image = len(invalid_image)
 
+    # This will call the invalid_image_function - books with an invalid image will display a default image
+    # This will be used when displaying book suggestions at the bottom of the page
+    invalid_books = invalid_image_function()
+
     return render_template('full_book_details.html', 
                             book=book, 
                             all_books=all_books, 
                             similar_genre_books=similar_genre_books, 
                             book_num=book_num,
                             info=info,
-                            count_invalid_image=count_invalid_image)
+                            count_invalid_image=count_invalid_image,
+                            invalid_books=invalid_books)
 
 
 """ All code for fiction related titles """
@@ -118,7 +131,9 @@ def fiction_books():
     Page to view all fiction books
     """
     
-    invalid_image_function()
+    # This will call the invalid_image_function - books with an invalid image will display a default image
+    invalid_books = invalid_image_function()
+
 
     # Pagination
     page_limit = 6
@@ -137,7 +152,8 @@ def fiction_books():
                             fiction_genres=fiction_genres,
                             page=page,
                             current_page=current_page,
-                            book_count=book_count)
+                            book_count=book_count,
+                            invalid_books=invalid_books)
 
  
 
@@ -147,6 +163,9 @@ def fiction_genre_search():
     """ 
     Function and results to search fiction books based on genre type 
     """
+
+    # This will call the invalid_image_function - books with an invalid image will display a default image
+    invalid_books = invalid_image_function()
     
     # Fiction genres 
     fiction_genres=mongo.db.genre.find({'fiction': 'yes'})
@@ -164,7 +183,8 @@ def fiction_genre_search():
                             genre_results=genre_results,
                             fiction_genres=fiction_genres,
                             genre_count=genre_count,
-                            genre_name=genre_name)
+                            genre_name=genre_name,
+                            invalid_books=invalid_books)
 
 
 @app.route('/other_fiction_books')
@@ -173,6 +193,9 @@ def other_fiction_books():
     """
     Page for books that are fiction but have been given a non-fiction genre 
     """
+
+    # This will call the invalid_image_function - books with an invalid image will display a default image
+    invalid_books = invalid_image_function()
 
     # Finds genres that are applied to fiction books
     fiction_genres=mongo.db.genre.find({'fiction': 'yes'})
@@ -196,7 +219,8 @@ def other_fiction_books():
     return render_template('other_fiction_books.html',
                             other_fiction_books=other_fiction_books,
                             fiction_genres=fiction_genres,
-                            other_fiction_books_count=other_fiction_books_count)
+                            other_fiction_books_count=other_fiction_books_count,
+                            invalid_books=invalid_books)
     
 
 
@@ -208,6 +232,9 @@ def non_fiction_books():
     """ 
     Page for non-fiction books
     """
+
+    # This will call the invalid_image_function - books with an invalid image will display a default image
+    invalid_books = invalid_image_function()
 
     # Pagination
     page_limit = 6
@@ -227,7 +254,8 @@ def non_fiction_books():
                             non_fiction_genres=non_fiction_genres,
                             current_page=current_page,
                             page=page,
-                            book_count=book_count)
+                            book_count=book_count,
+                            invalid_books=invalid_books)
 
  
 
@@ -237,6 +265,9 @@ def non_fiction_genre_search():
     """ 
     Function to filter non-fiction books based on genre type 
     """
+
+    # This will call the invalid_image_function - books with an invalid image will display a default image
+    invalid_books = invalid_image_function()
 
     # Finds genres that are applied to non-fiction books
     non_fiction_genres=mongo.db.genre.find({'fiction': 'no'})
@@ -254,7 +285,8 @@ def non_fiction_genre_search():
                             genre_results=genre_results,
                             non_fiction_genres=non_fiction_genres,
                             genre_count=genre_count,
-                            genre_name=genre_name
+                            genre_name=genre_name,
+                            invalid_books=invalid_books
                             )
 
 
@@ -264,6 +296,9 @@ def other_books():
     """ 
     Page for non-fiction books with a genre of 'other' 
     """
+
+    # This will call the invalid_image_function - books with an invalid image will display a default image
+    invalid_books = invalid_image_function()
 
     # Finds genres that are applied to non-fiction books
     non_fiction_genres=mongo.db.genre.find({'fiction': 'no'})
@@ -289,11 +324,12 @@ def other_books():
     return render_template('other_books.html',
                             other_books=other_books,
                             non_fiction_genres=non_fiction_genres,
-                            other_books_count=other_books_count)
+                            other_books_count=other_books_count,
+                            invalid_books=invalid_books)
 
 
 
-""" Functions to search all books in the database """
+""" Functions to filter books in the database """
 
 @app.route('/search_page/')
 def search_page():
@@ -302,8 +338,11 @@ def search_page():
     Landing page to filter books, and also displays all books in the database
     """
 
+    # This will call the invalid_image_function - books with an invalid image will display a default image
+    invalid_books = invalid_image_function()
+
     # Pagination logic 
-    page_limit = 6 
+    page_limit = 9
     book_count = mongo.db.book.count()
     current_page = int(request.args.get('current_page', 1))
     page = range(1, int(math.ceil(book_count / page_limit)) +1)
@@ -324,7 +363,8 @@ def search_page():
                             books=books,
                             page=page,
                             current_page=current_page,
-                            book_count=book_count)
+                            book_count=book_count,
+                            invalid_books=invalid_books)
     
 
  
@@ -334,6 +374,9 @@ def search_genre():
     """ 
     Landing page to filter books based on genre
     """
+
+    # This will call the invalid_image_function - books with an invalid image will display a default image
+    invalid_books = invalid_image_function()
 
     # Pagination logic 
     page_limit = 9
@@ -348,7 +391,8 @@ def search_genre():
                             all_genre=mongo.db.genre.find(),
                             books=books,
                             current_page=current_page,
-                            page=page)
+                            page=page,
+                            invalid_books=invalid_books)
 
  
 @app.route('/search_genre_function', methods=['GET', 'POST'])
@@ -357,6 +401,9 @@ def search_genre_function():
     """ 
     Function to filter books based on genre and looks for results
     """
+
+    # This will call the invalid_image_function - books with an invalid image will display a default image
+    invalid_books = invalid_image_function()
 
     if request.method == 'POST':
         genre_name = request.form.get('genre_name')
@@ -367,7 +414,8 @@ def search_genre_function():
                             all_genre=mongo.db.genre.find(),
                             genre_name=genre_name,
                             results=results,
-                            genre_count=genre_count)
+                            genre_count=genre_count,
+                            invalid_books=invalid_books)
 
 
 @app.route('/search_rating')
@@ -376,6 +424,9 @@ def search_rating():
     """ 
     Landing page to filter books based on rating
     """
+
+    # This will call the invalid_image_function - books with an invalid image will display a default image
+    invalid_books = invalid_image_function()
 
     # Pagination logic 
     page_limit = 9
@@ -391,7 +442,8 @@ def search_rating():
                             ratings=mongo.db.rating.find(),
                             books=books,
                             current_page=current_page,
-                            page=page)
+                            page=page,
+                            invalid_books=invalid_books)
 
 
 @app.route('/search_rating_function', methods=['GET', 'POST'])
@@ -400,6 +452,9 @@ def search_rating_function():
     """ 
     Function to filter books based on rating and looks for results
     """
+
+    # This will call the invalid_image_function - books with an invalid image will display a default image
+    invalid_books = invalid_image_function()
 
     # Look for books in the database with a rating_value that is the same 
     # as the rating_value in the form dropdown
@@ -414,7 +469,8 @@ def search_rating_function():
                             ratings=mongo.db.rating.find(),
                             rating_value=rating_value,
                             rating_results=rating_results,
-                            rating_count=rating_count)
+                            rating_count=rating_count,
+                            invalid_books=invalid_books)
 
 
 
