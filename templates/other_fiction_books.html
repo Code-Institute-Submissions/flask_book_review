@@ -78,9 +78,8 @@
                     <!-- Checks if the image uploaded is invalid. If it is invalid, a default image will be shown -->
                     {% if book.book_name in invalid_books %}
                         <p>
-                            <a href="{{ url_for('full_book_details', book_id=book._id) }}"><img
-                                    src="{{ url_for('static', filename='img/unknown_book.png' )}}" height="200" width="200"
-                                    alt="{{book.book_name}}"></img></a>
+                            <a href="{{ url_for('full_book_details', book_id=book._id) }}"><img class="unknown_img"
+                                    src="{{ url_for('static', filename='img/unknown_book.png' )}}" alt="{{book.book_name}}"></img></a>
                         </p>
 
                     <!-- If the image is valid it will be displayed -->
