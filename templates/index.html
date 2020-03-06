@@ -30,22 +30,23 @@
                             <!-- Checks if the image uploaded is invalid. If it is invalid, a default image will be shown -->
                             {% if book.book_name in invalid_books %}
                                 <p>
-                                    <a href="{{ url_for('full_book_details', book_id=book._id) }}"><img
-                                            src="{{ url_for('static', filename='img/unknown_book.png' )}}" height="200" width="200"
-                                            alt="{{book.book_name}}"></img></a>
+                                    <a href="{{ url_for('full_book_details', book_id=book._id) }}"><img class="unknown_img"
+                                            src="{{ url_for('static', filename='img/unknown_book.png' )}}" alt="{{book.book_name}}"></img></a>
                                 </p>
 
                             <!-- If the image is valid it will be displayed -->
                             {% else %}
                                 <p>
-                                    <a href="{{ url_for('full_book_details', book_id=book._id) }}"><img class="img_height_width" src="{{book.book_url}}" alt="{{book.book_name}}"></img></a>
+                                    <a href="{{ url_for('full_book_details', book_id=book._id) }}"><img class="img_height_width" 
+                                        src="{{book.book_url}}" alt="{{book.book_name}}"></img></a>
                                 </p>
                             {% endif %}
 
                         <!-- If no image has been uploaded altogether, a default image will be shown -->
                         {% else %}
                             <p>
-                                <a href="{{ url_for('full_book_details', book_id=book._id) }}"><img class="unknown_img" src="{{ url_for('static', filename='img/unknown_book.png' )}}" alt="{{book.book_name}}"></img></a>
+                                <a href="{{ url_for('full_book_details', book_id=book._id) }}"><img class="unknown_img" 
+                                    src="{{ url_for('static', filename='img/unknown_book.png' )}}" alt="{{book.book_name}}"></img></a>
                             </p>
                         {% endif %}
 
@@ -88,22 +89,23 @@
                             <!-- Checks if the image uploaded is invalid. If it is invalid, a default image will be shown -->
                             {% if book.book_name in invalid_books %}
                                 <p>
-                                    <a href="{{ url_for('full_book_details', book_id=book._id) }}"><img
-                                            src="{{ url_for('static', filename='img/unknown_book.png' )}}" height="200" width="200"
-                                            alt="{{book.book_name}}"></img></a>
+                                    <a href="{{ url_for('full_book_details', book_id=book._id) }}"><img class="unknown_img"
+                                            src="{{ url_for('static', filename='img/unknown_book.png' )}}" alt="{{book.book_name}}"></img></a>
                                 </p>
 
                             <!-- If the image is valid it will be displayed -->
                             {% else %}
                                 <p>
-                                    <a href="{{ url_for('full_book_details', book_id=book._id) }}"><img class="img_height_width" src="{{book.book_url}}" alt="{{book.book_name}}"></a>
+                                    <a href="{{ url_for('full_book_details', book_id=book._id) }}"><img class="img_height_width" 
+                                        src="{{book.book_url}}" alt="{{book.book_name}}"></a>
                                 </p>
                             {% endif %}
 
                         <!-- If no image has been uploaded altogether, a default image will be shown -->
                         {% else %}
                             <p>
-                                <a href="{{ url_for('full_book_details', book_id=book._id) }}"><img class="unknown_img" src="{{ url_for('static', filename='img/unknown_book.png' )}}" alt="{{book.book_name}}"></img></a>
+                                <a href="{{ url_for('full_book_details', book_id=book._id) }}"><img class="unknown_img" 
+                                    src="{{ url_for('static', filename='img/unknown_book.png' )}}" alt="{{book.book_name}}"></img></a>
                             </p>
                         {% endif %}
 
